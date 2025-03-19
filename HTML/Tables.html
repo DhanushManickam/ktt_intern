@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width = device-width , initial-scale=1.0">
+        <title>Tables</title>
+        <style>
+
+            #table1 thead ,#table1 tfoot{
+                background-color: rgb(55, 203, 203);
+            }
+            #table1{
+                text-align: center;
+            }
+            #table1 tr:nth-child(even) { background-color: lightgray; }
+        </style>
+    </head>
+    <body>
+        <h1>Table</h1>
+
+        <!-- basic table -->
+        <table>
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <hr>
+
+        <!-- table with basic change in border -->
+        <table border="1">
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table>
+        <br> <br>
+
+        <!-- Table with collapse border -->
+        <table border="1px solid" style="border-collapse: collapse;" >
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+
+        <!-- table with different borders -->
+        <table  style="border: 1px dashed red; border-collapse: collapse;"  >
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <hr>
+
+        <!-- span types -->
+        <!-- column span -->
+        <table border="1px solid" style="border-collapse: collapse;" >
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" style="text-align: center;">coimbatore office</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center;">salem office</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center;">chennai office</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table><br><br>
+        <!-- column span -->
+        <table border="1px solid" style="border-collapse: collapse;" >
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td rowspan="2">coimbatore</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td rowspan="2">salem</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table><br>
+        <hr>
+
+        <!-- cell padding -->
+        <table border="1px solid" cellpadding="10" style="border-collapse: collapse;"  >
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+
+        <!-- cell -->
+
+        <table border="1px solid" cellspacing="10"  >
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+        </table>
+        <br><hr>
+
+        <!-- Nested table  -->
+
+        <table border=1>
+            <tr>
+                <td> Outer Table </td>
+                <td>
+                    <table border=5 bordercolor=grey>
+                        <tr>
+                            <td> Inner Table </td>
+                        </tr>
+                        <tr>
+                            <td>Inner Table </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br><hr>
+
+        <!-- image table -->
+         <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Photo</th>
+            </tr>
+            <tr>
+                <td>desktop</td>
+                <td><img src="documents/Capture0.png" alt="desktop" width="100px"></td>
+            </tr>
+            <tr>
+                <td>world</td>
+                <td><img src="documents/icons8-favicon-48.png" alt=""></td>
+            </tr>
+         </table>
+         <br>
+         <hr>
+
+         <!-- styling table -->
+         <table border="1px solid" cellpadding="5" style="border-collapse: collapse; " id="table1">
+            <caption>Workers details</caption>
+            <thead>
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>worker 1</td>
+                    <td>application</td>
+                    <td>coimbatore</td>
+                </tr>
+                
+                <tr>
+                    <td>2</td>
+                    <td>worker 2</td>
+                    <td>web development</td>
+                    <td>coimbatore</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>worker 3</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>4</td>
+                    <td>worker 4</td>
+                    <td>application</td>
+                    <td>salem</td>
+                </tr>
+                
+                <tr>
+                    <td>5</td>
+                    <td>worker 5</td>
+                    <td>web development</td>
+                    <td>chennai</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Total workers</td>
+                    <td >5</td>
+                </tr>
+            </tfoot>
+        </table>
+        <br><br>
+    </body>
+</html>

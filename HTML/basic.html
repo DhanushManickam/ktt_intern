@@ -374,7 +374,7 @@
 
     <!-- plugins -->
      <embed src="documents/Capture0.png" type="image/png" width="300" height="200">
-      <object data="videos/mov_bbb.mp4" type="video/mp4">Not video support</object>
+      <!-- <object data="videos/mov_bbb.mp4" type="video/mp4">Not video support</object> -->
       <object data="docs/Short-stories-from-100-Selected-Stories (1).pdf" type=""></object>
       <hr>
 
@@ -400,8 +400,29 @@
 
        <hr>
 
+      <!-- 19/03/2025 -->
        <!-- drag and drop -->
         <h1>Drag and drag</h1>
+        <div id="drop" ondrop="drophandler(event)" ondragover="dragoverhandler(event)" style="height: 50px;  width: 50px; border: 1px solid #aaaaaa "></div>
+
+        <img src="documents/icons8-favicon-48.png" alt="image to drag" id="img" draggable="true" ondragstart="dragstarthandler(event)">
         
+        <script>
+          function dragstarthandler(ev){
+            ev.dataTransfer.setData("text", ev.target.id);
+          }
+          function dragoverhandler(ev){
+            ev.preventDefault();
+          }
+          function drophandler(ev){
+            ev.preventDefault();;
+            const data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+          }
+        </script>
+
+        <hr>
+        <a href="Tables.html">click here to open the tables page</a>
+        <a href="forms.html">click here to open the form page</a>
 </body>
 </html>
