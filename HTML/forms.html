@@ -18,6 +18,8 @@
         <input type="email" name="email" id="email"><br>
         <label for="tel">phone no</label>
         <input type="tel" name="tel" id="tel"><br>
+        <label for="date">d.o.b</label>
+        <input type="date" name="dob" id="date"><br>
         <label for="password">password</label>
         <input type="password" name="password" id="password"><br>
         <input type="button" value="submit">
@@ -53,7 +55,7 @@
 
     <!-- buttons -->
 
-    <form action="test.html" method="get">
+    <form action="test.html" method="get" autocomplete="off">
         <fieldset>
             <legend>button used form</legend>
             <input type="text" name="name" id="name" placeholder="name"><br>
@@ -76,8 +78,88 @@
             <br>
             <button>submit</button>
             <input type="reset" value="reset">
-
         </fieldset>
-    </form>
-</body>
+    </form><br><br>
+    
+    <!-- Feedback form -->
+     <form action="test.html" autocomplete="on">
+        <fieldset>
+            <legend>Feedback form</legend>
+            <input type="text" name="name" id="name" placeholder="Full Name" required><br>
+            <input type="email" name="email" id="email" placeholder="Email id" required><br>
+            <label for="rating">Rating:</label>
+            <select name="rating" id="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <br>
+            <span>Would like to recommend?</span>
+            <input type="radio" name="recommend" id="yes">
+            <label for="yes">YES</label>
+            <input type="radio" name="recommend" id="no">
+            <label for="no">NO</label><br>
+            <input type="submit" value="SUBMIT">
+        </fieldset>
+     </form><br><br>
+
+     <!-- complete all data form with all inputs -->
+      <form action="test.html" method="get">
+        <fieldset>
+            <legend>Form</legend>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" required><br>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required><br>
+            <label for="phono">Phone no</label>
+            <input type="tel" name="phono" id="phono" minlength="10" maxlength="10" required><br>
+            <label for="dob">DOB</label>
+            <input type="date" name="dob" id="dob" required><br>
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required><br>
+            <label>Gender:</label>
+            <input type="radio" id="male" name="gender">
+            <label for="male">male</label>
+            <input type="radio" id="female" name="gender">
+            <label for="female">female</label><br>
+            <label for="language">known language:</label>
+            <input type="checkbox" id="english">
+            <label for="english">English</label>
+            <input type="checkbox" id="tamil">
+            <label for="tamil">Tamil</label>
+            <input type="checkbox" id="hindi">
+            <label for="hindi">Hindi</label>
+            <br>
+            <label for="country">country</label>
+            <select name="country" id="country" >
+                <option value="india">India</option>
+                <option value="America">America</option>
+                <option value="Italy">Italy</option>
+            </select><br>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" minlength="8" required><br>
+            <label for="company"></label>Company</label>
+            <input type="text" id="company" name="company" value="K T Telematic" readonly><br>
+            <input type="hidden" name="name" id="cid" value="23">
+            <label for="resume">Resume</label>
+            <input type="file" name="resume" id="resume" required><br>
+            <span>how did you know about our company?</span>
+            <input list="referal" name="" id="">
+            <datalist id="referal">
+                <option value="Friend">Friend</option>
+                <option value="whatsapp">whatsapp</option>
+                <option value="Linked in">Linked in</option>
+                <option value="Instagram">Instagram</option>
+            </datalist><br>
+            <label for="gitlink">Git link</label>
+            <input type="url" name="gitlink" id="gitlink" required><br>
+            <input type="image" src="documents/icons8-favicon-48.png" id="submit">
+            <input type="reset" value="Reset">
+            <button>submit</button>
+        </fieldset>
+      </form>
+
+</body>      
 </html>
