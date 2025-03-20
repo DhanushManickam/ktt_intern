@@ -159,7 +159,52 @@
             <input type="reset" value="Reset">
             <button>submit</button>
         </fieldset>
-    </form>
+    </form><br><br>
 
+    <!-- Search input tag -->
+
+    <form action="test.html">
+        <fieldset>
+            <legend>search Form</legend>
+            <input type="search" name="find" id="find" placeholder="search">
+            <button type="submit">submit</button>
+        </fieldset>
+    </form><br><br>
+
+    <!-- range tag -->
+     <form action="test.html">
+        <fieldset>
+            <legend>Range tag</legend>
+            <label for="rating">share your rating</label>
+            <input type="range" name="rating" id="rating" min="1" max="5" value="5" oninput="updated(this.value)">
+            <span id="val">5</span>
+            <script>
+                function updated(value){
+                     document.getElementById("val").textContent = value;
+                }
+            </script>
+            <button type="submit">Submit</button>
+        </fieldset>
+     </form>
+
+     <!-- Time related tags -->
+      <form action="test.html">
+        <fieldset>
+            <legend>Time related tags</legend>
+            <label for="time">current time:</label>
+            <input type="time" name="time" id="time"><br><br>
+            <label for="data">Today date:</label>
+            <input type="date" name="data" id="data"><br><br>
+            <label for="time1">Time and data:</label>
+            <input type="datetime-local" name="time1" id="time"><br><br>
+            <label for="mon">Month:</label>
+            <input type="month" name="Month" id="mon"><br><br>
+            <label for="week">Week:</label>
+            <input type="week" name="Week" id="week"><br><br>
+            <label for="year">datetime:</label>
+            <input type="datetime" name="datetime" id="datatime"><br><br>
+            <button>submit</button>
+        </fieldset>
+      </form>
 </body>      
 </html>
