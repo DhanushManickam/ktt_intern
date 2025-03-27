@@ -359,3 +359,23 @@ order, flex grow, flex shrink, flex basics */
     background-color: #5be8d8;
     padding: 10px;
 }
+.lay{
+    display: grid;
+    grid-template-rows: 10vh 10vh 10vh;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.lay h3{
+    background-color: #da3d6f;
+    padding: 20px;
+    text-align: center;
+    justify-items: stretch;
+}
+
+.head{
+    grid-column-start: 3 span;
+}
+.foot{
+    grid-column-start: 3 span;
+}
+
