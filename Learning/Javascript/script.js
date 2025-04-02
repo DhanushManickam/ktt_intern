@@ -208,7 +208,207 @@ switch(a){
         "Value not match";
         break;
 }
+// Looping
+
+// For Loop
+let array = [1,2,3,4,5];
+for (let i = 0; i < array.length; i++){
+    console.log(array[i]);
+}
+
+// While loop
+let i = 0;
+while(i < array.lenght){
+    console.log(array[i]);
+    i++;
+}
+
+// do while
+do{
+    console.log(array[i-1]);
+}
+while(i < array.lenght)
+
+// in and of loop for object and array
+
+let objarr = [{name : "Dhanush", age:21},{name:"Obuli" , age :22}, {name:"Siva" ,age:22}]
+
+for(let datas of objarr){
+    console.log(datas);
+}
+
+let object = {name :"Dhanush", age :21 , class:"A", Dept :"cse"}
+for(let datas in object){
+    console.log(datas);
+}
+
+for(let datas in object){
+    console.log(object[datas]);
+}
+
+
+// Mocha Automated testing
 function add(v1, v2) {
     return v1 + v2;
 }
 module.exports = add;
+
+// Object Data type
+
+let person = {name : "Dhanush" , age : 21, Collage:"KIOT", Dept:"CSE",YOP: 2025};
+
+// object display
+console.log(person.name);
+console.log(person['name']);
+
+// Adding new data
+person.country = "India";
+
+// Delete Existing data
+delete person.YOP;
+
+// object methods
+const person1 = {
+    name: 'John',
+    age: 25,
+    sayName() {
+      console.log("Hello "+this.name);
+    }
+  };
+  
+  person1.sayName();
+
+//   Function based object creation
+
+const createobject = (name ,age) =>{
+    const object1 = {name,age};
+    return object1;
+}
+const Dhanush = createobject("Dhanush", 21);
+console.log(Dhanush);
+
+// Getter and Setter methods
+
+const person2 = {
+    Firstname : "Dhanush",
+    lastname : "Manickam",
+    get fullname(){
+        return this.Firstname+" "+this.lastname;
+    }
+}
+console.log(person2.fullname);
+
+const person3 = {
+ set fullname(name){
+    const[firstname, lastname] = name.split(' ');
+    this.firstname = firstname;
+    this.lastname = lastname;
+ }
+}
+person3.fullname =  "Dhanush Manickam";
+console.log(person3.firstname);
+console.log(person3.lastname);
+
+
+// in operator to check existing of value or not
+console.log("name" in object);
+
+// reference of the object 
+let obj1 = {office :"KTT", Place:"CBT"};
+let obj2 = obj1;
+console.log(obj2);
+
+// comparision
+console.log(obj1 == obj2);
+console.log(obj1 === obj2);
+
+let obj3 = {};
+let obj4 = {};
+console.log(obj3 == obj4);
+console.log(obj3 === obj4);
+
+// cloning of object
+let clone = {};
+
+for (let key in obj1){
+    clone[key] = obj1[key];
+}
+console.log(clone);
+
+let clone1 = structuredClone(clone);
+
+// merge of objects 
+Object.assign(obj1,person);
+console.log(obj1);
+
+// Method 
+let obj5 = {
+    name : "Obuli",
+    greet : function () {
+        console.log("Hello");
+    }
+};
+obj5.greet();
+
+// Arrow functions have no “this”
+let obj6 = {
+    name : "Obuli",
+    valuename : ()=>{
+        console.log(this.name);
+    }
+}
+obj6.valuename();
+
+// Object create using new
+const obj7 = new Obj7 ("Dhanush");
+function Obj7(name) {
+    this.name = name,
+    this.isstudent = false;
+}
+console.log(obj7);
+const obj8 = new Obj7 ("Sanjay");
+function Obj7(name) {
+    this.name = name,
+    this.isstudent = false;
+}
+console.log(obj8);
+
+// Constructor return type
+
+const obj9 = new Obj9();
+function Obj9(){
+    this.name = "Dhanush"
+    return {name :"Sanjay"};
+}
+console.log(obj9);
+
+const obj10 = new Obj10();
+function Obj10(){
+    this.name = "Dhanush"
+    return;
+}
+console.log(obj10);
+
+function User(name) {
+    this.name = name,
+    this.sayHi = function() {
+      console.log( "My name is: " + this.name );
+    };
+  }
+  
+  let dhanush = new User("Dhanush");
+  
+  dhanush.sayHi()
+
+  let res = obj2?.DOB;
+  console.log(res);
+
+  let res1 = obj2?.name;
+  console.log(res1);
+
+// Symbol in object 
+let email = Symbol();
+let obj11 = {};
+obj11.name ="Dhanush";
+obj11.id = 12;
+o
