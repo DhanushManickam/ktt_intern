@@ -411,4 +411,94 @@ let email = Symbol();
 let obj11 = {};
 obj11.name ="Dhanush";
 obj11.id = 12;
-o
+obj11[email] = "2k21cse017@kiot.ac.in";
+
+console.log(Object.keys(obj11));
+
+// symbol in real time
+
+const service = Symbol("service");
+const truck = (name)=>{
+    return {
+    name,
+    [service] : [],
+
+    setservice(date, name){
+        this[service].push({name : name,date});
+    },
+    
+    getservice(){
+        console.log(this.name);
+        console.log(this[service]);
+    }
+}}
+
+const volvo = truck("volvo");
+volvo.setservice("2025-03-14", "oil service");
+volvo.setservice("2025-03-25", "engin service");
+
+volvo.getservice();
+
+const truck1 = new trucks("Volvo", "Volvo FM", "12-03-2025");
+
+function trucks(name, model, obdate){
+    this.name = name;
+    this.model = model;
+    this.obdate = obdate;
+}
+console.log(truck1);
+
+// prototype objects
+
+trucks.prototype.curloc = "Salem";
+const truck2 = new trucks("volvo", "Volvo fm","12-03-2025");
+
+// trucks.prototype = {curloc : "Coimbatore"};
+console.log(truck2);
+console.log(truck2.curloc);
+
+// access methods
+console.log(truck1.name);
+
+console.log(truck1['name']);
+
+console.log(Object.keys(truck1));
+
+console.log(Object.values(truck2));
+
+for(let data in truck2){
+    console.log(data +":"+ truck2[data]);
+}
+
+console.log(Object.entries(truck2));
+
+// convertion object to primitive
+
+const convert = {
+    [Symbol.toPrimitive](hint){
+    if (hint === "string") return "Hello";
+    if (hint === "number") return 32;
+    return null;
+}
+};
+console.log(String(convert));
+console.log(Number(convert));
+console.log(convert + 23);
+console.log(convert);
+
+const obj12 ={
+    name : "KTT",
+    age : 12,
+    toString(){
+        return this.name;
+    },
+    valueOf() {
+        return this.age;
+    },
+}
+console.log(String(obj12));
+console.log(Number(obj12));
+
+console.log(obj12 + " Solution")
+
+    
