@@ -221,3 +221,11 @@ console.log(String(fruits));
 let t1 = 100000;
 let t2 = "1000a000as";
 console.log(t1 + Number(t2));
+
+// octal number for file access
+
+const fs = require('fs');
+fs.stat("new.txt", (err, stats) => {
+    if (err) throw err;
+    console.log(`Permissions: ${stats.mode.toString(8)}`);
+});
