@@ -127,3 +127,14 @@ console.log("Driver 2 truck detials", Driver.driver2.truck);
 
 delete Driver.driver2.EXP;
 console.log(Driver.driver2);
+
+for(let value of Object.values(Truck)){
+    console.log(value);
+}
+
+let truck_list = new Set();
+for(let key of Object.keys(Truck)){
+    truck_list.add(key);
+}
+
+console.log("Entier Truck list", truck_list);

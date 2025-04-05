@@ -193,3 +193,23 @@ console.log("Load detials in decreasing order:" , Num_of_load.sort((a , b)=> a-b
 console.log("Load detials in decreasing order:" , Num_of_load.sort((a , b)=> a-b).reverse().join("->"));
 
 console.log("Is driver details are array?", Array.isArray(driver));
+
+let arr = [1,2,3]; 
+arr[12] =34;
+arr[45] = 55;
+arr[72] = 77;
+arr[100] = 38;
+let c1 = 0;
+let v = 0;
+for(let value of arr){
+    if(value){
+        arr.splice(0,40)
+        c1 = 0;
+    }
+    else {
+        c1++;
+    }
+    v++;
+}
+console.log(arr.length);
+console.log(arr);
