@@ -199,17 +199,11 @@ arr[12] =34;
 arr[45] = 55;
 arr[72] = 77;
 arr[100] = 38;
-let c1 = 0;
-let v = 0;
-for(let value of arr){
-    if(value){
-        arr.splice(0,40)
-        c1 = 0;
+
+for(let i = arr.length - 1; i >=0; i--){
+    if(arr[i] === undefined){
+        arr.splice(i, 1);
     }
-    else {
-        c1++;
-    }
-    v++;
 }
 console.log(arr.length);
 console.log(arr);
