@@ -138,3 +138,25 @@ for(let key of Object.keys(Truck)){
 }
 
 console.log("Entier Truck list", truck_list);
+
+// Destructure Assignment
+
+for(let values in Truck){
+    let { brand,model } =  Truck[values];
+    console.log("Name of the vehical and model:" ,brand , "->", model);
+}
+
+let [value, ...rest] = Truck.truck1.service;
+console.log("Name of the Servies", value.name);
+console.log("REST DETAILS:",rest);
+
+console.log("---------------");
+const {name : driver_name, truck} = Driver.driver1;
+console.log("Driver how assigned to Truck:", driver_name, truck);
+
+function connect({dname , tmodel}){
+    console.log("-------------------")
+    console.log("Driver Name:" ,dname,"\nTruck Model:", tmodel);
+    console.log("-------------------")
+};
+connect({dname: Driver.driver1.name, tmodel :Truck.truck1.model } );
