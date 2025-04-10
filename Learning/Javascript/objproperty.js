@@ -63,3 +63,19 @@
         }
     })
     console.log("Full name of employee:", employee.Fullname);
+
+    let object = {
+        get name() {
+            return this._name;
+        },
+        set name(value){
+            if(value.length < 4){
+                console.log("Invalid or name size is less than 4");
+                return;
+            }
+            this._name = value;
+        }
+    }
+    
+    object.name = "Dhanush";
+    console.log(object.name);
