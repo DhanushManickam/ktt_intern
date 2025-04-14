@@ -68,3 +68,26 @@ SELECT * FROM (
     SELECT * FROM drivers WHERE age < 30
 ) AS young_drivers JOIN trucks ON young_drivers.driverid = trucks.driverid;
 
+-- SELECT concat('Dhanush', ' ', 'Manickam') As result;
+
+-- SELECT upper('value') as result;
+
+-- SELECT Lower('value') as result;
+
+-- SELECT round(123.21234, 2) as result;
+
+-- SELECT FLOOR (2.6) as result;
+
+-- select CEIL (2.6) as result;
+
+-- SELECT current_date as today;
+
+-- Select current_time as time;
+
+-- SELECT EXTRACT(YEAR FROM DATE '2025-04-14') AS year_value;
+
+SELECT * FROM drivers where name = 'Vijay';
+
+create INDEX index_derivername ON drivers(name);
+
+SELECT * FROM drivers where name = 'Vijay';
