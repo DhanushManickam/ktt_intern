@@ -25,9 +25,14 @@ sequelize.sync()
 })
 
 const data = sequelize.define('data', {
+    id :{
+        type: DataTypes.INTEGER,
+        allowNull : false,
+        primaryKey : true,
+        autoIncrement : true
+    },
     name :{
         type: DataTypes.STRING,
-        primaryKey : true,
         allowNull : false,
     },
     email : {
@@ -39,3 +44,5 @@ const data = sequelize.define('data', {
         allowNull : false,
     }
 })
+
+module.exports = {sequelize,data};
