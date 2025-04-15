@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main content</title>
+</head>
+<body>
+    <h1>It is main content page</h1>
+
+    <form action="/submit" method="post">
+        <fieldset>
+            <legend>Enter your details</legend>
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name"><br><br>
+             <label for="email">Email</label>
+             <input type="email" name="email" id="email"><br><br>
+             <label for="mobile_no">Mobile No:</label>
+             <input type="text" name="mobile_no" id="mobile_no"><br><br>
+             <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+
+    
+  <h2>Read</h2>
+  <form action="/users" method="GET">
+    <button type="submit">Get All Users</button>
+  </form>
+
+</body>
+</html>
