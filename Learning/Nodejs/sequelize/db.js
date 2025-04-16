@@ -42,6 +42,10 @@ const data = sequelize.define('data', {
     age : {
         type : DataTypes.INTEGER,
         allowNull : false,
+    },
+    mobile_no : {
+        type : DataTypes.INTEGER,
+        allowNull : false,
     }
 })
 

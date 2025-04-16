@@ -7,15 +7,15 @@ const path = require("path");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+  
 app.get('/',(req, res)=>{
     res.sendFile(path.join(__dirname,"form.html"));
 })
 
 app.post('/create', async (req, res) => {
-    const { name, email, age } = req.body;
+    const { name, email, age , mobile_no} = req.body;
     try {
-      await data.create({ name, email, age });
+      await data.create({ name, email, age, mobile_no });
       res.redirect('/users');
     } catch (err) {
       res.send(`Error: ${err.message}`);
@@ -26,9 +26,9 @@ app.post('/create', async (req, res) => {
     const users = await data.findAll();
     let html = `<h2>All Users</h2><a href="/">+ Add New</a><ul>`;
     users.forEach(u => {
-      html += `<li>${u.name} (${u.email}, ${u.age}) 
+      html += `<li>${u.name} (${u.email}, ${u.age}, ${u.mobile_no}) 
                 <a href="/edit/${u.id}">Edit</a> 
-                <a href="/delete/${u.id}" onclick="return confirm('Delete?')">🗑️ Delete</a>
+                <a href="/delete/${u.id}" onclick="return confirm('Delete?')"> Delete</a>
               </li>`;
     });
     html += `</ul>`;
@@ -45,6 +45,7 @@ app.post('/create', async (req, res) => {
         <label>Name: <input type="text" name="name" value="${user.name}" required /></label><br><br>
         <label>Email: <input type="email" name="email" value="${user.email}" required /></label><br><br>
         <label>Age: <input type="number" name="age" value="${user.age}" required /></label><br><br>
+        <label>Mobile no: <input type="number" name="number" value="${user.mobile_no}" required /></label><br><br>
         <button type="submit">Update</button>
       </form>
     `;
@@ -52,11 +53,11 @@ app.post('/create', async (req, res) => {
   });
   
   app.post('/update', async (req, res) => {
-    const { id, name, email, age } = req.body;
+    const { id, name, email, age ,mobile_no} = req.body;
     try {
       const user = await data.findByPk(id);
       if (!user) return res.send('User not found');
-      await user.update({ name, email, age });
+      await user.update({ name, email, age ,mobile_no});
       res.redirect('/users');
     } catch (err) {
       res.send(`Error: ${err.message}`);
