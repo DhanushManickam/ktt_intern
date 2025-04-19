@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document object Manipulation</title>
+    <style>
+        .container {
+            height: 200px;
+            width: 400px;
+            background-color:  #341255;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Hello</h1>
+    <button onclick= "buttonclick()" >click me</button>
+    
+    <div class="container">
+        
+    </div>
+    <script>
+        function buttonclick(){
+            document.getElementById("title").innerHTML = "Welcome All!";
+            console.log(document);
+            console.log(window.innerWidth);
+            history.back();
+        }
+        document.getElementsByClassName("container").innerHTML = "Hello users";
+    </script>
+</body>
+</html>
