@@ -1,0 +1,148 @@
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+        <span class="editclosebtn">&times;</span>
+
+        <form id="candidateForm">
+                <p>Personal details</p>
+                <div class="field">
+                    <label><span><i class="fa-regular fa-user"></i> First name </span><input type="text" id="fname" name="first_name" value="Dhanush" required></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-regular fa-user"></i> Last name </span><input type="text" id="lname" name="last_name" value="Manickam" readonly></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-regular fa-envelope"></i> Email id </span><input type="email" id="email" name="email_id" value="dhanush@gmail.com"required></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-phone"></i> Phone no </span><input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" value="9876544321" required></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-graduation-cap"></i> Qualification </span><input type="text" name="qualification" id="qualification" value="BE" required></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-location-dot"></i> Location</span><input type="text" name="location" id="location" value="Salem"></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-link"></i> GitHub link</span><input type="text" name="gitlink" id="gitlink" value="https://GitHub/dhanush"></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-image-portrait"></i> Photo</span><input type="file" name="photo" id="photo"></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-regular fa-file"></i> Resume</span><input type="file" name="resume" id="resume"  value="../images/iconamoon_profile-fill.png" required></label>
+                </div>
+
+                <p>Professional details</p>
+                <div class="field">
+                    <label><span><i class="fa-solid fa-building"></i> Company</span><input type="text" name="company" id="company" value="TCS"></label>
+                </div>
+
+                <div class="field">
+                        <label><span><i class="fa-solid fa-briefcase"></i> Designation</span><input type="text" name="designation" id="designation" value="Software developer" required></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-calendar-days"></i> Experience</span><input type="number" name="experience" id="experience"  value="3.5" required></label>
+                </div>
+
+                <div class="field">
+                    <label for="sal_pay_type" >
+                        <i class="fa-solid fa-wallet"></i> Salary pay type
+                    
+                    <div class="radio" >
+                        <label><input type="radio" name="sal_pay_typ" id="ctc" checked> CTC</label>
+                        <label><input type="radio" name="sal_pay_typ" id="take_home" > Take Home</label>
+                    </div>
+                </label>
+                </div>
+
+                <div class="field">
+                    <label for="sal_type">
+                        <i class="fa-solid fa-wallet"></i> Salary type
+                    
+                    <div class="radio">
+                        <label><input type="radio" name="c_sal_typ" id="monthly" > Monthly</label>
+                        <label><input type="radio" name="c_sal_typ" id="annual" checked> Annual</label>
+                    </div>
+                </label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-wallet"></i> Current Salary</span><input type="number" name="csalary" id="csalary" value="700000"></label>
+                </div>
+
+                <div class="field">
+                    <label for="sal_type">
+                        <i class="fa-solid fa-wallet"></i> Salary type
+                    
+                    <div class="radio">
+                        <label><input type="radio" name="e_sal_typ" id="monthly"> Monthly</label>
+                        <label><input type="radio" name="e_sal_typ" id="annual" checked> Annual</label>
+                    </div>
+                </label>
+                <div class="field">
+                    <label><span><i class="fa-solid fa-wallet"></i> Expected Salary</span><input type="number" name="esalary" id="esalary"  value="900000"></label>
+                </div>
+
+                <div class="field">
+                    <label><span><i class="fa-solid fa-calendar-days"></i> Notice peroid</span><input type="number" name="Notperiod" value="90"></label>
+                </div>
+
+                <div class="field">
+                    <label for="role"><span><i class="fa-solid fa-briefcase"></i> Role</span><select name="role" id="Role">
+                        <option value="AD">App Developer</option>
+                        <option value="BDE">Business Development Executive</option>
+                        <option value="CT" >Customer Trainner</option>
+                        <option value="DA">Data Analyst</option>
+                        <option value="FSD" selected>Full Stack Developer</option>                
+                        <option value="HR">Human Resource</option>
+                        <option value="Test">Web/App Tester</option>
+                    </select></label>
+                </div>
+
+                <div class="field">
+                    <label>
+                    <span><i class="fa fa-link"></i> Source</span>
+                    <select name="source" id="source" onchange="toggleOtherInput()" required>
+                        <option value="Linked in" selected>Linked in</option>
+                        <option value="Indeed">Indeed</option>
+                        <option value="Naukri">Naukri</option>
+                        <option value="referal">Referal</option>
+                    </select>
+                    </label>
+                </div>
+                
+                <div class="field" id="referal_field" style="display: none;">
+                    <label for="referal">
+                    <span><i class="fa fa-user"></i> Employee id</span><input type="number" name="referal" id="referal">
+                    </label>
+                </div>
+
+                <div class="field">
+                    <label>
+                    <span><i class="fa fa-list"></i> Skill sets</span> <input type="text" name="skills" id="skills" required>
+                    </label>
+                </div>
+                
+                <div class="field">
+                    <label for="work_in_cbe">
+                        <i class="fa-solid fa-wallet"></i> Willing to CBE
+                    
+                    <div class="radio">
+                        <label><input type="radio" name="work_in_cbe" id="yes" checked> YES</label>
+                        <label><input type="radio" name="work_in_cbe" id="no"> NO</label>
+                    </div>
+                </label>
+            <button type="submit"><i class="fa fa-edit"></i> Update</button>
+            </div>
+        </form>
+        </div>
+    </div>

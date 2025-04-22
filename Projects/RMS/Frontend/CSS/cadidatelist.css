@@ -8,17 +8,17 @@ body {
     display: flex;
     height: 100vh;
 }
-.navbar {
+.main-navbar {
     width: 180px;
     background-color: #333333;
     padding: 20px;
     height: 100vh;
     position: fixed;
 }
-.navbar nav {
+.main-navbar nav {
     margin-top: 40px;
 }
-.navbar a {
+.main-navbar a {
     display: block;
     margin-bottom: 10px;
     padding: 10px;
@@ -29,12 +29,12 @@ body {
     border-radius: 50px 0px 0px 50px;
     transition: all 0.5s;
 }
-.navbar a:hover {
+.main-navbar a:hover {
     background-color: #c8c8c8;
     color: black;
     font-weight: bold;
 }
-.navbar nav #present {
+.main-navbar nav #present {
     background-color: #fff;
     color: black;
     font-weight: bold;
@@ -181,25 +181,27 @@ header h2 {
     font-weight: 500;
     color: #000000;
 }
-.list #editbtn {
+.list .editbtn {
     border: none;
-    padding: 5px;
-    width: 100px;
     background-color: #37CAB5;
     border-radius: 5px;
+    text-decoration: none;
+    color: #000000;
+    padding: 5px 25px 5px 25px;
 }
-.list #editbtn:hover {
+.list .editbtn:hover {
     background-color: #2aa89a;
     color: #fff;
 }
-.list #updatebtn {
-    border: none;
-    padding: 5px;
-    width: 100px;
+.list .btn {
+    color: #000000;
+    padding: 1px 15px 1px 15px;
     background-color: #3754fe;
     border-radius: 5px;
+    text-align: center;
+    margin-bottom: 5px;
 }
-.list #updatebtn:hover{
+.list .updatebtn:hover{
     color: #fff;
 }
 
@@ -254,24 +256,24 @@ header h2 {
     color: #000000;
     padding: 5px;
 }
-.tabledata #editbtn{
+.tabledata  .editbtn {
     border: none;
-    padding: 5px;
-    width: 100px;
     background-color: #37CAB5;
     border-radius: 5px;
+    text-decoration: none;
+    color: #000000;
+    padding: 3px 20px 2px 20px;
 }
-.tabledata #editbtn:hover{
+.tabledata .editbtn:hover{
     background-color: #2aa89a;
     color: #fff;
 }
 
-.tabledata #updatebtn{
-    border: none;
-    padding: 5px;
-    width: 100px;
+.tabledata #updatebtn {
+    padding: 3px 20px 2px 20px;
     background-color: #3754fe;
     border-radius: 5px;
+    text-align: center;
 }
 .tabledata #updatebtn:hover{
     color: #fff;

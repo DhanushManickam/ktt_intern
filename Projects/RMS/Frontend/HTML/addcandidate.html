@@ -1,34 +1,27 @@
-<div id="customModal" class="modal">
+<div id="addModal" class="modal">
     <div class="modal-content">
-      <span class="closebtn">&times;</span>
-  
-      <div class="modelhead">
-        <button class="tab-btn active" data-tab="personal">Personal Details</button>
-        <button class="tab-btn" data-tab="professional">Professional Details</button>
-        <button class="tab-btn" data-tab="interview">Interview Details</button>
-      </div>
-  
+      <span class="addclosebtn">&times;</span>
+
       <form id="candidateForm">
-        
-        <div class="tab-content active" id="personal">
+            <p>Personal details</p>
             <div class="field">
-                <label><span><i class="fa-regular fa-user"></i> First name </span><input type="text" id="fname" name="fname"></label>
+                <label><span><i class="fa-regular fa-user"></i> First name </span><input type="text" id="fname" name="first_name" required></label>
             </div>
 
             <div class="field">
-                <label><span><i class="fa-regular fa-user"></i> Last name </span><input type="text" id="lname" name="lname"></label>
+                <label><span><i class="fa-regular fa-user"></i> Last name </span><input type="text" id="lname" name="last_name" required></label>
             </div>
 
             <div class="field">
-                <label><span><i class="fa-regular fa-envelope"></i> Email id </span><input type="email" id="email" name="email"></label>
+                <label><span><i class="fa-regular fa-envelope"></i> Email id </span><input type="email" id="email" name="email_id" required></label>
             </div>
 
             <div class="field">
-                <label><span><i class="fa-solid fa-phone"></i> Phone no </span><input type="tel" id="phone_no" name="phone_no" maxlength="10" minlength="10"></label>
+                <label><span><i class="fa-solid fa-phone"></i> Phone no </span><input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" required></label>
             </div>
 
             <div class="field">
-                <label><span><i class="fa-solid fa-graduation-cap"></i> Qualification </span><input type="text" name="qualification" id="qualification"></label>
+                <label><span><i class="fa-solid fa-graduation-cap"></i> Qualification </span><input type="text" name="qualification" id="qualification" required></label>
             </div>
 
             <div class="field">
@@ -44,29 +37,42 @@
             </div>
 
             <div class="field">
-                <label><span><i class="fa-regular fa-file"></i> Resume</span><input type="file" name="resume" id="resume"></label>
+                <label><span><i class="fa-regular fa-file"></i> Resume</span><input type="file" name="resume" id="resume" required></label>
             </div>
-        </div>
-  
-        <div class="tab-content" id="professional">
-          <div class="field">
-            <label><span><i class="fa-solid fa-building"></i> Company</span><input type="text" name="company" id="company"></label>
-          </div>
 
-          <div class="field">
-                <label><span><i class="fa-solid fa-briefcase"></i> Designation</span><select name="Designation" id="Designation">
-                    <option value="AD">App Developer</option>
-                    <option value="BDE">Business Development Executive</option>
-                    <option value="CT">Customer Trainner</option>
-                    <option value="DA">Data Analyst</option>
-                    <option value="FSD">Full Stack Developer</option>                
-                    <option value="HR">Human Resource</option>
-                    <option value="Test">Web/App Tester</option>
-                </select></label>
+            <p>Professional details</p>
+            <div class="field">
+                <label><span><i class="fa-solid fa-building"></i> Company</span><input type="text" name="company" id="company"></label>
             </div>
 
             <div class="field">
-                <label><span><i class="fa-solid fa-calendar-days"></i> Experience</span><input type="text" name="experience" id="experience"></label>
+                    <label><span><i class="fa-solid fa-briefcase"></i> Designation</span><input type="text" name="designation" id="designation" required></label>
+            </div>
+
+            <div class="field">
+                <label><span><i class="fa-solid fa-calendar-days"></i> Experience</span><input type="number" name="experience" id="experience" required></label>
+            </div>
+
+            <div class="field">
+                <label for="sal_pay_type" >
+                    <i class="fa-solid fa-wallet"></i> Salary pay type
+                
+                <div class="radio" >
+                    <label><input type="radio" name="sal_pay_typ" id="ctc"> CTC</label>
+                    <label><input type="radio" name="sal_pay_typ" id="take_home" > Take Home</label>
+                </div>
+            </label>
+            </div>
+
+            <div class="field">
+                <label for="sal_type">
+                    <i class="fa-solid fa-wallet"></i> Salary type
+                
+                <div class="radio">
+                    <label><input type="radio" name="sal_typ" id="monthly" > Monthly</label>
+                    <label><input type="radio" name="sal_typ" id="annual"> Annual</label>
+                </div>
+            </label>
             </div>
 
             <div class="field">
@@ -74,12 +80,21 @@
             </div>
 
             <div class="field">
-                <label><span><i class="fa-solid fa-calendar-days"></i> Notice peroid</span><input type="number" name="Notperiod"></label>
+                <label for="sal_type">
+                    <i class="fa-solid fa-wallet"></i> Salary type
+                
+                <div class="radio">
+                    <label><input type="radio" name="sal_typ" id="monthly"> Monthly</label>
+                    <label><input type="radio" name="sal_typ" id="annual"> Annual</label>
+                </div>
+            </label>
+            <div class="field">
+                <label><span><i class="fa-solid fa-wallet"></i> Expected Salary</span><input type="number" name="esalary" id="esalary"></label>
             </div>
 
-        </div>
-  
-        <div class="tab-content" id="interview">
+            <div class="field">
+                <label><span><i class="fa-solid fa-calendar-days"></i> Notice peroid</span><input type="number" name="Notperiod"></label>
+            </div>
 
             <div class="field">
                 <label for="role"><span><i class="fa-solid fa-briefcase"></i> Role</span><select name="role" id="Role">
@@ -92,49 +107,42 @@
                     <option value="Test">Web/App Tester</option>
                 </select></label>
             </div>
-            
-            <div class="field">
-                <label><span><i class="fa-solid fa-building-user"></i> Interviewer</span><select name="innterveiew" id="interview">
-                    <option value="I1">Interviewer1</option>
-                    <option value="I2">Interviewer2</option>
-                </select></label>
-            </div>
 
             <div class="field">
-                <label><span><i class="fa fa-skill"></i> Skill sets</span><select id="skills" name="skills[]"">
-                    <option value="html">HTML</option>
-                    <option value="css">CSS</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="java">Java</option>
-                    <option value="react">React</option>
-                    <option value="angular">Angular</option>
-                    <option value="nodejs">Node.js</option>
-                    <option value="django">Django</option>
-                    <option value="mysql">MySQL</option>
-                    <option value="mongodb">MongoDB</option>
-                    <option value="git">Git</option>
-                    <option value="docker">Docker</option>
-                    <option value="aws">AWS</option>
-                    <option value="selenium">Selenium</option>
-                    <option value="postman">Postman</option>
-                    <option value="communication">Communication</option>
-                    <option value="teamwork">Teamwork</option>
-                    <option value="problem_solving">Problem Solving</option>
-                    <option value="time_management">Time Management</option>
-                  </select></label>
-            </div>
+                <label>
+                  <span><i class="fa fa-link"></i> Source</span>
+                  <select name="source" id="source" onchange="toggleOtherInput()" required>
+                    <option value="Linked in">Linked in</option>
+                    <option value="Indeed">Indeed</option>
+                    <option value="Naukri">Naukri</option>
+                    <option value="referal">Referal</option>
+                  </select>
+                </label>
+              </div>
+              
+              <div class="field" id="referal_field" style="display: none;">
+                <label for="referal">
+                  <span><i class="fa fa-user"></i> Employee id</span><input type="number" name="referal" id="referal">
+                </label>
+              </div>
 
-            <div class="field">
-                <label><span><i class="fa-solid fa-clock"></i> Date</span><input type="date" name="interview_date"></label>
-            </div>
-
-            <div class="field">
-                <label><span><i class="fa-solid fa-clock"></i> Time</span><input type="time" name="interview_time"></label>
-            </div>
+              <div class="field">
+                <label>
+                  <span><i class="fa fa-list"></i> Skill sets</span> <input type="text" name="skills" id="skills" required>
+                </label>
+              </div>
+              
+              <div class="field">
+                <label for="work_in_cbe">
+                    <i class="fa-solid fa-wallet"></i> Willing to CBE
+                
+                <div class="radio">
+                    <label><input type="radio" name="work_in_cbe" id="yes"> YES</label>
+                    <label><input type="radio" name="work_in_cbe" id="no"> NO</label>
+                </div>
+            </label>
           <button type="submit">Submit</button>
         </div>
       </form>
     </div>
   </div>
-  

@@ -1,10 +1,10 @@
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
     left: 0; top: 0;
     width: 100%; height: 100%;
     background: rgba(0,0,0,0.6);
+    overflow: scroll;
 }
 .modal-content {
     background: white;
@@ -15,7 +15,7 @@
     border-radius: 10px;
     position: relative;
 }
-.closebtn {
+.addclosebtn , .editclosebtn {
     position: absolute;
     top: 10px; right: 15px;
     font-size: 22px;
@@ -24,6 +24,7 @@
 }
 form{
     margin-top: 10px;
+    font-size: 16px;
 }
 .field input{
     border-radius: 0px 5px 5px 0px;
@@ -44,7 +45,11 @@ form{
     padding-left: 10px;
     margin-bottom: 15px;
 }
+.field label i{
+    margin-top: 5px;
+}
 .field input[type = file]::file-selector-button{
+    font-size: 14px;
     border: none;
     background-color: #fff;
     margin-top: 2px;
@@ -59,7 +64,7 @@ form{
     padding-left: 10px;
     outline: none;
 }
-#interview button{
+form button{
     color: #000;
     background-color: #37CAB5;
     border: none;
@@ -73,27 +78,21 @@ label span{
     justify-content: space-between;
     gap: 10px;
 }
-
-.tab-nav {
+.field .radio{
     display: flex;
-    margin-bottom: 15px;
+    width: 300px;
+    margin-top: 15px;
 }
-.tab-btn {
-    background-color: #37CAB5;
+.field .radio label{
+    display: inherit;
+    justify-content: left;
+    width: 150px;
+    gap: 5px;
+    border-radius: 0px;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    color: #fff;
+    border-left: 1px solid #656565;
+    font-size: 14px;
 }
-.tab-btn.active {
-    background-color: #eee;
-    color: rgb(0, 0, 0);
-}
-.tab-content {
-    display: none;
-}
-.tab-content.active {
-    display: block;
+.field .radio input{
+    width: 14px;
 }

@@ -1,11 +1,11 @@
-fetch('../HTML/addcandidate.html')
+fetch('../HTML/editcandidate.html')
   .then(res => res.text())
   .then(html => {
     document.body.insertAdjacentHTML('beforeend', html);
 
-    const openBtn = document.getElementById('openAddModalLink');
-    const modal = document.getElementById('addModal');
-    const closeBtn = document.querySelector('.addclosebtn');
+    const openBtn = document.getElementById('openEditModalLink');
+    const modal = document.getElementById('editModal');
+    const closeBtn = document.querySelector('.editclosebtn');
 
     openBtn.addEventListener('click', e => {
       e.preventDefault();

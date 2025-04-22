@@ -15,6 +15,9 @@ app.get('/candidate', (req, res)=>{
 app.get('/add_candidate', (req, res)=>{
     res.sendFile(path.join(__dirname, 'Frontend/HTML/addcandidate.html'))
 })
+app.get('/edit_candidate', (req, res)=>{
+    res.sendFile(path.join(__dirname, 'Frontend/HTML/editcandidate.html'))
+})
 app.listen(port, ()=>{
     console.log('connection established');
 })
