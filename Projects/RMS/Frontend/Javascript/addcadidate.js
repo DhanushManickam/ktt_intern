@@ -19,6 +19,10 @@ fetch('../HTML/addcandidate.html')
     window.addEventListener('click', e => {
       if (e.target === modal) modal.style.display = 'none';
     });
+
+    const skillInput = document.querySelector("input[name='basic']");
+    new Tagify(skillInput);
+    let skills = tagify.value.map(tag => tag.value).join(',');
 });
 
 function toggleOtherInput() {
@@ -30,3 +34,4 @@ function toggleOtherInput() {
       otherField.style.display = "none";
   }
 }
+

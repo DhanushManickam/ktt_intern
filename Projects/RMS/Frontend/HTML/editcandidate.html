@@ -3,18 +3,20 @@
         <span class="editclosebtn">&times;</span>
 
         <form id="candidateForm">
+            <div class="fixed">
                 <p>Personal details</p>
                 <div class="field">
                     <label><span><i class="fa-regular fa-user"></i> First name </span><input type="text" id="fname" name="first_name" value="Dhanush" required></label>
                 </div>
 
                 <div class="field">
-                    <label><span><i class="fa-regular fa-user"></i> Last name </span><input type="text" id="lname" name="last_name" value="Manickam" readonly></label>
+                    <label><span><i class="fa-regular fa-user"></i> Last name </span><input type="text" id="lname" name="last_name" value="Manickam" required></label>
                 </div>
 
                 <div class="field">
                     <label><span><i class="fa-regular fa-envelope"></i> Email id </span><input type="email" id="email" name="email_id" value="dhanush@gmail.com"required></label>
                 </div>
+            </div>
 
                 <div class="field">
                     <label><span><i class="fa-solid fa-phone"></i> Phone no </span><input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" value="9876544321" required></label>
@@ -127,8 +129,10 @@
                 </div>
 
                 <div class="field">
-                    <label>
-                    <span><i class="fa fa-list"></i> Skill sets</span> <input type="text" name="skills" id="skills" required>
+                    <label for="skills">
+                        <span><i class="fa fa-list"></i> Skill sets</span>
+                        <input type="text" name="skills" id="skills" oninput="suggestSkills()" required>
+                        <div id="skill-suggestions" class="suggestions"></div>
                     </label>
                 </div>
                 

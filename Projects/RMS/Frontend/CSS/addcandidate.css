@@ -1,54 +1,65 @@
 .modal {
     display: none;
     position: fixed;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    overflow: scroll;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
 }
+
 .modal-content {
     background: white;
     padding: 20px;
-    margin: 10% auto;
+    margin: 4% auto;
     width: 90%;
-    max-width: 500px;
+    max-width: 520px;
+    max-height: 80vh;   
+    overflow-y: auto;
     border-radius: 10px;
     position: relative;
+    box-sizing: border-box;
 }
-.addclosebtn , .editclosebtn {
+.addclosebtn,.editclosebtn {
     position: absolute;
-    top: 10px; right: 15px;
+    top: 5px;
+    right: 15px;
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
 }
-form{
+form {
     margin-top: 10px;
     font-size: 16px;
+    display: flex;
+    flex-direction: column;
 }
-.field input{
+.field {
+    margin-bottom: 15px;
+}
+.field input,.field select {
     border-radius: 0px 5px 5px 0px;
     border: 0.5px solid #656565;
-    height: 26px;
-    width: 300px;
+    height: 36px;
+    width: 100%;
+    max-width: 300px;
     padding-left: 10px;
     outline: none;
 }
 .field label {
     color: #656565;
     border: 0.5px solid #656565;
-    height: 26px;
+    height: 36px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-radius: 5px;
     padding-left: 10px;
-    margin-bottom: 15px;
 }
-.field label i{
+.field label i {
     margin-top: 5px;
 }
-.field input[type = file]::file-selector-button{
+.field input[type="file"]::file-selector-button {
     font-size: 14px;
     border: none;
     background-color: #fff;
@@ -56,43 +67,75 @@ form{
     color: #1302ff;
     text-decoration: underline;
 }
-.field select{
-    border-radius: 0px 5px 5px 0px;
-    border: 0.5px solid #656565;
-    height: 26px;
-    width: 300px;
-    padding-left: 10px;
-    outline: none;
-}
-form button{
-    color: #000;
+
+form button {
+    color: #fff;
     background-color: #37CAB5;
     border: none;
     border-radius: 5px;
-    padding: 5px;
+    padding: 10px;
     width: 100px;
-    margin-left: 350px;
+    margin-left: auto;
+    margin-top: 20px;
 }
-label span{
+label span {
     display: flex;
     justify-content: space-between;
     gap: 10px;
 }
-.field .radio{
+.field .radio {
     display: flex;
     width: 300px;
     margin-top: 15px;
+    gap: 15px;
 }
-.field .radio label{
-    display: inherit;
-    justify-content: left;
-    width: 150px;
+.field .radio label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     gap: 5px;
-    border-radius: 0px;
+    width: 120px;
+    border-radius: 0;
     border: none;
-    border-left: 1px solid #656565;
     font-size: 14px;
+    border-left: 1px solid #656565 ;
 }
-.field .radio input{
-    width: 14px;
+
+.field .radio input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin-bottom: 3px;
+    border-left: 1px solid #656565;
 }
+.field .radio input[type="radio"]:checked {
+    background-color: #37CAB5;
+}
+.field .radio label {
+    font-size: 14px;
+    color: #656565;
+    padding-left: 5px;
+    margin-bottom: 15px;
+}
+form .fixed{
+    position: sticky;
+    top: -20px;
+    background-color: #fff;
+    width: 465px;
+}
+
+#skill .tagify {
+    border-radius: 0px 5px 5px 0px;
+    border: 0.5px solid #656565;
+    height: auto;
+    padding: 5px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+#skill .tagify__input {
+    padding-left: 10px;
+    padding: 0px;
+    height: 15px;
+    width: 280px;
+    font-size: 16px;
+}
+  

@@ -27,7 +27,6 @@ body {
     color: #fff;
     width: 160px;
     border-radius: 50px 0px 0px 50px;
-    transition: all 0.5s;
 }
 .main-navbar a:hover {
     background-color: #c8c8c8;
@@ -94,28 +93,30 @@ header h2 {
     gap : 20px;
     box-sizing: border-box;
 }
-#search {
+#searchbtn {
     width: 100%;
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 5px;
+    margin-bottom: 20px;
 }
-#search input {
+#searchbtn input {
     width: 600px;
     height: 30px;
     border-radius: 5px;
     border: 0.5px solid #333333;
-    padding-left: 10px;
+    padding: 5px 5px 5px 10px;
+
 }
-#search button {
+#searchbtn button {
     right: 5px;
     color: white;
     background-color: #37CAB5;
     border: none;
-    padding: 8px;
+    padding: 4px;
     border-radius: 5px;
-    margin-top: -2px;
 }
 
 .tableview a{
@@ -145,7 +146,7 @@ header h2 {
 }
 .lists .list {
     width: 250px;
-    height: 300px;
+    height: fit-content;
     background-color: #37cab471;
     border-radius: 5px; 
     display: flex;
@@ -193,7 +194,7 @@ header h2 {
     background-color: #2aa89a;
     color: #fff;
 }
-.list .btn {
+.list .updatebtn {
     color: #000000;
     padding: 1px 15px 1px 15px;
     background-color: #3754fe;
@@ -202,6 +203,7 @@ header h2 {
     margin-bottom: 5px;
 }
 .list .updatebtn:hover{
+    background-color: #3754fe;
     color: #fff;
 }
 
@@ -229,12 +231,12 @@ header h2 {
 }
 
 /* candidate Table view */
-.tabledata {
+.table_data {
     overflow: auto;
     width: 100%;
 }
 
-.tabledata table {
+.table_data table {
     border: 1px solid #000000;
     height: 100%;
     width: 100%;
@@ -245,36 +247,82 @@ header h2 {
     text-align: center;
 }
 
-.tabledata th {
+.table_data th {
     border: 1px solid #000000;
     background-color: #37cab471;
     color: #000000;
     padding: 5px;
 }
-.tabledata tr , td{
+.table_data td{
     border: 1px solid #333333;
     color: #000000;
     padding: 5px;
 }
-.tabledata  .editbtn {
+.table_data  .editbtn {
     border: none;
     background-color: #37CAB5;
     border-radius: 5px;
     text-decoration: none;
     color: #000000;
-    padding: 3px 20px 2px 20px;
+    padding: 5px 25px 5px 25px;
 }
-.tabledata .editbtn:hover{
+.table_data .editbtn:hover{
     background-color: #2aa89a;
     color: #fff;
 }
 
-.tabledata #updatebtn {
+.table_data .updatebtn {
     padding: 3px 20px 2px 20px;
     background-color: #3754fe;
     border-radius: 5px;
     text-align: center;
+    color: #000;
 }
-.tabledata #updatebtn:hover{
+.table_data .updatebtn:hover{
     color: #fff;
+    background-color: #3754fe;
+}
+
+.rate{
+
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 12px;
+
+}
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 30px;
+    font-weight: 300;
+    color: #FFD600;
+    cursor: pointer
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
 }
