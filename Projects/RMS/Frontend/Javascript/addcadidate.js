@@ -3,17 +3,18 @@ fetch('../HTML/addcandidate.html')
   .then(html => {
     document.body.insertAdjacentHTML('beforeend', html);
 
-    const openBtn = document.getElementById('openAddModalLink');
     const modal = document.getElementById('addModal');
     const closeBtn = document.querySelector('.addclosebtn');
 
-    openBtn.addEventListener('click', e => {
-      e.preventDefault();
-      modal.style.display = 'block';
-    });
-
     closeBtn.addEventListener('click', () => {
       modal.style.display = 'none';
+    });
+
+    document.querySelectorAll('.openAddModalLink').forEach(btn => {
+      btn.addEventListener('click',e=>{
+        e.preventDefault();
+        modal.style.display = 'block';
+      })
     });
 
     window.addEventListener('click', e => {
@@ -27,8 +28,8 @@ fetch('../HTML/addcandidate.html')
 
 function toggleOtherInput() {
   const select = document.getElementById("source");
-  const otherField = document.getElementById("referal_field");
-  if (select.value === "referal") {
+  const otherField = document.getElementById("referral_field");
+  if (select.value === "referral") {
       otherField.style.display = "block";
   } else {
       otherField.style.display = "none";

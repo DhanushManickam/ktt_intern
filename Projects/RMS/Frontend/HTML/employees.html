@@ -4,26 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees</title>
-    <link rel="stylesheet" href="../CSS/cadidatelist.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/employee.css">
 </head>
 <body>
     <div class="main-navbar">
         <nav>
             <a href="#">Dashboard</a>
-            <a href="#">Candidate List</a>
-            <a href="inteviewstatus.html">Interview Status</a>
-            <a href="#" id="present">Employees</a> 
+            <a href="/candidate">Candidate List</a>
+            <a href="#" id="present">Employee List</a> 
         </nav>
     </div>
     <div class="content">
         <header>
             <h2 id="greeting">Good Morning HR name</h2>
-            <div class="headr">       
-                <div class="newcandidate" >
-                    <a id="openAddModalLink" href="/add_candidate"> <i class="fa fa-add"></i> Add Candidate</a>
-                </div>
+            <div class="headr">
                 <div id="profile"></div>
             </div>
         </header>
+        <div class="emptable">
+            <div class="add_emp">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#employeeModal"><i class="fa fa-add"></i> Add Employee</a>
+            </div>
+            <div class="searchbar">
+                <input type="search" id="search">
+                <button><i class="fa fa-search"></i> Search</button>
+            </div>
+            <div class="emplist">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.no</th>
+                            <th>Name</th>
+                            <th>Email id</th>
+                            <th>contact no</th>
+                            <th>Role</th>
+                            <th>Department</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Dhanush</td>
+                            <td>dhanush@gmail.com</td>
+                            <td>9876543210</td>
+                            <td>Full Stack developer</td>
+                            <td>IT</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Siva</td>
+                            <td>siva@gmail.com</td>
+                            <td>9876543321</td>
+                            <td>Human Resources</td>
+                            <td>HR</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeModalLabel">Employee Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="employeeForm">
+                        <div class="mb-3">
+                            <label for="employeeName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="employeeName" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="employeeEmail" class="form-label">Email ID</label>
+                            <input type="email" class="form-control" id="employeeEmail"required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="employeePhone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="employeePhone" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="employeeDepartment" class="form-label">Department</label>
+                            <select class="form-select" id="employeeDepartment" required>
+                                <option value="" selected disabled>Select department</option>
+                                <option value="IT">IT</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Sales">Sales</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="employeeRole" class="form-label">Role</label>
+                            <input type="text" class="form-control" id="employeeRole" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="employeeBranch" class="form-label">Branch</label>
+                            <select class="form-select" id="employeeBranch" required>
+                                <option value="" selected disabled>Select branch</option>
+                                <option value="CBE">Coimbatore</option>
+                                <option value="SG">Sankagiri</option>
+                                <option value="CHE">Chennai</option>
+                            </select>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Details</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../Javascript/header.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

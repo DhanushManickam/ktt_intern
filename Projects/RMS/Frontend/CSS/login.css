@@ -60,6 +60,12 @@ form {
     border: 1px solid #656565;
     border-radius: 5px;
 }
+.input-wrapper select{
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    border: 1px solid #656565;
+    border-radius: 5px;
+}
 .login a {
     text-align: right;
     color: #37CAB5;
@@ -93,4 +99,9 @@ form {
         width: 100%;
         max-width: 90%;
     }
+}
+#registerlink{
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
 }
