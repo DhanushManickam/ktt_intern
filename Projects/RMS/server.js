@@ -9,8 +9,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('frontend'));
 
-const employeesrouteoute = require('./routes/employeesroute');
-app.use('/', employeesrouteoute);
+const emp_route = require('./routes/employeesroute');
+app.use('/', emp_route);
+
+const cand_route =require('./routes/candidateroute')
+app.use('/', cand_route)
 
 sequelize.sync()
   .then(() => {
@@ -33,7 +36,7 @@ app.get('/candidate', (req, res) => {
 app.get('/add_candidate', (req, res) => {
   res.sendFile(path.join(__dirname, 'Frontend/HTML/addcandidate.html'));
 });
-
+ 
 app.get('/edit_candidate', (req, res) => {
   res.sendFile(path.join(__dirname, 'Frontend/HTML/editcandidate.html'));
 });

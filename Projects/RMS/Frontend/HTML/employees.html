@@ -74,25 +74,25 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="employeeForm">
+                    <form id="employeeForm" action="/register" method="post">
                         <div class="mb-3">
                             <label for="employeeName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="employeeName" required>
+                            <input type="text" class="form-control" id="employeeName" name="name" required>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="employeeEmail" class="form-label">Email ID</label>
-                            <input type="email" class="form-control" id="employeeEmail"required>
+                            <label for="email_id" class="form-label">Email ID</label>
+                            <input type="email" class="form-control" id="email_id" name="email_id" required>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="employeePhone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="employeePhone" required>
+                            <label for="phone_no" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone_no" name="phone_no" required>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="employeeDepartment" class="form-label">Department</label>
-                            <select class="form-select" id="employeeDepartment" required>
+                            <label for="department" class="form-label">Department</label>
+                            <select class="form-select" id="department" name="department" required>
                                 <option value="" selected disabled>Select department</option>
                                 <option value="IT">IT</option>
                                 <option value="Marketing">Marketing</option>
@@ -101,19 +101,12 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="employeeRole" class="form-label">Role</label>
-                            <input type="text" class="form-control" id="employeeRole" required>
+                            <label for="role" class="form-label">Role</label>
+                            <input type="text" class="form-control" id="role"  name="role" required>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="employeeBranch" class="form-label">Branch</label>
-                            <select class="form-select" id="employeeBranch" required>
-                                <option value="" selected disabled>Select branch</option>
-                                <option value="CBE">Coimbatore</option>
-                                <option value="SG">Sankagiri</option>
-                                <option value="CHE">Chennai</option>
-                            </select>
-                        </div>
+
+                        <input type="hidden" name="password" value="not_an_hr">
+                        <input type="hidden" name="confirmPassword" value="not_an_hr">
                         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

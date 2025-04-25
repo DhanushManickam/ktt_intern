@@ -1,8 +1,7 @@
 <div id="addModal" class="modal">
     <div class="modal-content">
-       
 
-        <form id="candidateForm" class="form-content">
+        <form id="candidateForm" class="form-content" action="/add_candidate" method="POST">
             <div class="fixed">
                 <span class="addclosebtn">&times;</span>
                 <p>Personal details</p>
@@ -36,7 +35,7 @@
             <div class="rows">
                 <div class="field">
                     <label><span><i class="fa-solid fa-graduation-cap"></i> Qualification </span></label>
-                    <input type="text" name="qualification" id="qualification" required>
+                    <input type="text" name="qualification" id="qualification">
                 </div>
     
                 <div class="field">
@@ -75,7 +74,7 @@
                     <label for="referral">
                       <span><i class="fa fa-user"></i> Employee id</span>
                     </label>
-                    <input type="number" name="referral" id="referral">
+                    <input type="number" name="emp_id" id="emp_id">
                 </div>
             </div>
 
@@ -103,28 +102,28 @@
             <div class="rows">
                 <div class="field">
                     <label><span><i class="fa-solid fa-briefcase"></i> Designation</span></label>
-                    <input type="text" name="designation" id="designation" required>
+                    <input type="text" name="designation" id="designation" >
                 </div>
                 <div class="field">
                     <label><span><i class="fa-solid fa-calendar-days"></i> Experience</span></label>
-                    <input type="number" name="experience" id="experience" required>
+                    <input type="number" name="experience" id="experience" step=".01">
                 </div>
             </div>
             
             <div class="rows">
                 <div class="field">
                     <label><span><i class="fa-solid fa-calendar-days"></i> Notice period</span></label>
-                    <input type="date" name="Notperiod">
+                    <input type="date" name="notice_period" id="notice_period">
                 </div>
     
                 <div class="field">
-                    <label for="sal_pay_type" >
+                    <label for="sal_type" >
                         <i class="fa-solid fa-wallet"></i> Salary type
                         
                     </label>
                     <div class="radio" >
-                        <label><input type="radio" name="sal_pay_typ" id="ctc"> CTC</label>
-                        <label><input type="radio" name="sal_pay_typ" id="take_home" > Monthly</label>
+                        <label><input type="radio" name="sal_type" value="CTC" id="ctc"> CTC</label>
+                        <label><input type="radio" name="sal_type" id="take_home" value="Monthly"> Monthly</label>
                     </div>
                 </div>
             </div>
@@ -132,11 +131,11 @@
             <div class="rows">
                 <div class="field">
                     <label><span><i class="fa-solid fa-wallet"></i> Current Salary</span></label>
-                    <input type="number" name="csalary" id="csalary">
+                    <input type="number" name="current_salary" id="current_salary">
                 </div>
                 <div class="field">
                     <label><span><i class="fa-solid fa-wallet"></i> Expected Salary</span></label>
-                    <input type="number" name="esalary" id="esalary">
+                    <input type="number" name="expected_salary" id="expected_salary">
                 </div>
             </div>
            
@@ -148,7 +147,7 @@
                 </div>
             </div>
 
-            <button type="submit"><i class="fa fa-add"></i> Add Candidate</button>
+            <button type="submit"><i class="fa fa-save"></i> Save</button>
         </form>
     </div>
 </div>

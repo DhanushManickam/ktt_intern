@@ -1,12 +1,11 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/db')
 
-const employees = sequelize.define('employee',{
+const employees = sequelize.define('employees',{
     id :{
         type: DataTypes.INTEGER,
         allowNull : false,
         primaryKey : true,
-        autoIncrement : true
     },
     name:{
         type : DataTypes.STRING(30),
@@ -21,7 +20,8 @@ const employees = sequelize.define('employee',{
         unique : true
     },
     phone_no : {
-        type : DataTypes.INTEGER
+        type : DataTypes.STRING(10),
+        allowNull : false,
     },
     role : {
         type : DataTypes.STRING(30),
