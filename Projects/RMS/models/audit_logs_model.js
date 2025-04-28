@@ -3,7 +3,7 @@ const {sequlize} = require('../config/db');
 const candidates = require('./candidatemodel');
 const employees =require('./employee');
 
-const audit_log = sequlize.define('audit_log', {
+const Audit_log = sequlize.define('audit_log', {
     log_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -48,9 +48,9 @@ const audit_log = sequlize.define('audit_log', {
       }
 });
 
-Candidate.hasMany(audit_log, { foreignKey: 'candidate_id' });
-audit_log.belongsTo(candidates, { foreignKey: 'candidate_id' });
-Employee.hasMany(audit_log, { foreignKey: 'id' });
-audit_log.belongsTo(employees, { foreignKey: 'id' });
+Candidate.hasMany(Audit_log, { foreignKey: 'candidate_id' });
+Audit_log.belongsTo(Candidates, { foreignKey: 'candidate_id' });
+Employee.hasMany(Audit_log, { foreignKey: 'id' });
+Audit_log.belongsTo(Employees, { foreignKey: 'id' });
 
-module.exports = audit_log;
+module.exports = Audit_log;

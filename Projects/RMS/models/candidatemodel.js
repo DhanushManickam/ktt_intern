@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
+const Employees = require('./employee');
 
-const candidates = sequelize.define('candidate', {
+const Candidates = sequelize.define('Candidate', {
   candidate_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -191,6 +192,17 @@ const candidates = sequelize.define('candidate', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  hr_id : {
+    type : DataTypes.INTEGER,
+    allowNull : true,
+    references :{
+      model : Employees,
+      key : 'id'
+    }
+  }
 });
 
-module.exports = candidates;
+Employees.hasMany(Candidates,{foreignKey: 'id'});
+Candidates.belongsTo(Employees, {foreignKey : 'id'});
+
+module.exports = Candidates;

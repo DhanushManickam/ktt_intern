@@ -23,7 +23,6 @@ fetch('../HTML/addcandidate.html')
 
     const skillInput = document.querySelector("input[name='basic']");
     new Tagify(skillInput);
-    let skills = tagify.value.map(tag => tag.value).join(',');
 });
 
 function toggleOtherInput() {

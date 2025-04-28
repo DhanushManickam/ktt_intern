@@ -74,4 +74,83 @@ router.post('/add_candidate', async (req, res) => {
   }
 });
 
+router.get('/api/candidates', async (req, res) => {
+  try {
+    const Candidates = await candidates.findAll();
+
+    if (Candidates.length === 0) {
+      return res.status(404).json({ message: 'No candidates found' });
+    }
+
+    res.json(Candidates);
+  } catch (err) {
+    console.error('Error fetching candidates:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/api/candidates/:id', async (req, res) => {
+  try {
+    const candidateId = req.params.id;
+    const candidate = await candidates.findOne({
+      where: { candidate_id: candidateId }
+    });
+    
+    if (!candidate) {
+      return res.status(404).json({ message: 'Candidate not found' });
+    }
+    res.json(candidate);
+  } catch (err) {
+    console.error('Error fetching candidate:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.put('/api/candidates/:id', async (req, res) => {
+  try {
+    const candidateId = req.params.id;
+    const {
+      first_name,
+      last_name,
+      email_id,
+      contact_no,
+      qualification,
+      location,
+      role,
+      experience,
+      notice_period,
+      current_salary,
+      expected_salary,
+    } = req.body;
+
+    const candidate = await candidates.findOne({
+      where: { candidate_id: candidateId }
+    });
+
+    if (!candidate) {
+      return res.status(404).json({ message: 'Candidate not found' });
+    }
+
+    await candidate.update({
+      first_name,
+      last_name,
+      email_id,
+      contact_no,
+      qualification,
+      location,
+      role,
+      experience,
+      notice_period,
+      current_salary,
+      expected_salary,
+    });
+
+    res.json({ message: 'Candidate updated successfully', candidate });
+  } catch (err) {
+    console.error('Error updating candidate:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 module.exports = router;

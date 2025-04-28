@@ -15,6 +15,8 @@ app.use('/', emp_route);
 const cand_route =require('./routes/candidateroute')
 app.use('/', cand_route)
 
+const protect = require('./routes/protectedroute')
+app.use('/api',protect)
 sequelize.sync()
   .then(() => {
     console.log('DB synced');

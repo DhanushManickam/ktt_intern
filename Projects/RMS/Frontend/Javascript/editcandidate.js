@@ -21,8 +21,6 @@ fetch('../HTML/editcandidate.html')
       if (e.target === modal) modal.style.display = 'none';
     });
 
-    const skillInput = document.querySelector("input[name='basic']");
-    new Tagify(skillInput);
   });
 
 function toggleOtherInput() {

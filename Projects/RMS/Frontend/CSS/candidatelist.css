@@ -232,6 +232,9 @@ header h2 {
     color: #fff;
 }
 
+.candidate_table{
+    margin: 20px;
+}
 #candidateTable {
     overflow: auto;
     width: 100%;
@@ -239,22 +242,29 @@ header h2 {
 }
 
 #candidateTable table {
-    border: 1px solid #333333;
     height: 100%;
     width: 100%;
     table-layout: fixed;
+    border-collapse: collapse;
 }
 
+#candidateTable #head-row #start{
+    border-radius: 5px 0px 0px 0px;
+}
+#candidateTable #head-row #end{
+    border-radius: 0px 5px 0px 0px;
+}
 #candidateTable th {
-    border: 0.5px solid #656565;
-    background-color: #37cab471;
+    border: thin solid #656565;
+    background-color: #37cab4c3;
     color: #000000;
     padding: 5px;
     text-align: center;
 }
 #candidateTable td{
+    
     background-color: #fff;
-    border: 0.5px solid #656565;
+    border: thin solid #656565;
     color: #000000;
     padding: 5px;
     text-align: center;
@@ -283,12 +293,29 @@ header h2 {
     color: #fff;
     background-color: #3754fe;
 }
+.dataTables_filter{
+    margin: 20px 0px 20px 0px;
+    border-radius: 5px;
+}
+
+.dataTables_filter input[type="search"] {
+    min-width: 500px;
+}
+th.sorting_asc::after {
+    color: green;  
+}
+
+th.sorting_desc::after {
+    color: red; 
+}
+
+.dataTables_length{
+    margin : 20px
+}
 
 .rate{
-
 	border-bottom-right-radius: 12px;
 	border-bottom-left-radius: 12px;
-
 }
 .rating {
     display: flex;
