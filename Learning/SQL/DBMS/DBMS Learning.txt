@@ -1,0 +1,73 @@
+DBMS Learning
+
+//Query to display tables in different schema with their name
+
+ select table_name from information_schema.tables where table_schema = 'person';
+
+//Query to display all the schema
+
+SELECT schema_name from information_schema.schemata;
+
+//create table user in public schema
+ CREATE TABLE users (user_id INT, name VARCHAR(30), email VARCHAR(40), contact_no VARCHAR(20));
+
+//creating comment to the tables
+
+adventureworks=# COMMENT ON TABLE users IS 'This table contain the data of all users';
+
+// creating comments to the individual columns 
+
+adventureworks=# COMMENT ON COLUMN users.user_id IS 'User id of individual users';
+adventureworks=# COMMENT ON COLUMN users.email IS 'User email id ';
+
+// display the entire information of the table with comments
+
+\d+ users
+
+// Adding primary Key to users
+adventureworks=# ALTER TABLE users ADD CONSTRAINT pk_user_id PRIMARY KEY (user_id);
+
+// Adding constraint
+
+adventureworks=# ALTER TABLE users ADD CONSTRAINT uk_email unique(email);
+
+// inserting values in table users
+
+adventureworks=# insert Into users values ( 1, 'Dhanush', 'dhanush@gmail.com', 9876442341), ( 2, 'Siva' , 'siva@gmail.com', 9876543210);
+
+// Altering table by adding new coloumns
+adventureworks=# ALTER TABLE users ADD COLUMN email_id INT;
+
+//Filtering the data 
+adventureworks=# SELECT * FROM person.vadditionalcontactinfo WHERE businessentityid BETWEEN 1 AND 15;
+
+//wildcard search pattern
+adventureworks=# SELECT firstname||' '||middlename||' '||lastname as name from person.person WHERE firstname LIKE 'A%';
+adventureworks=# SELECT firstname||' '||middlename||' '||lastname as name from person.person WHERE firstname LIKE '__h%';
+
+// Functions
+adventureworks=# SELECT LENGTH(NAME) FROM users WHERE user_id = 1;
+adventureworks=# SELECT UPPER(NAME) FROM USERS;
+adventureworks=# SELECT LOWER(NAME) FROM USERS;
+adventureworks=# SELECT * FROM person.person where DATE_PART('year', modifieddate) = 2024;
+
+//Aggregate functions
+// To display total users 
+adventureworks=# select max(orderqty) as Max_order_qty from purchasing.purchaseorderdetail;
+adventureworks=# select sum(orderqty) as total_qty from purchasing.purchaseorderdetail;
+adventureworks=# select avg(orderqty) as avg_total_qty from purchasing.purchaseorderdetail;
+adventureworks=# select count(orderqty) as total_qty from purchasing.purchaseorderdetail;
+
+//Group by  used to group the set of date based on due
+adventureworks=# SELECT duedate, count(orderqty) as totalqty FROM purchasing.purchaseorderdetail group by duedate ;
+
+//used having clause to find the number of people having high due date
+adventureworks=# SELECT duedate, count(orderqty) as totalqty FROM purchasing.purchaseorderdetail group by duedate having count(orderqty) > 50 order by totalqty;
+
+// Finding the vendor using subquery who purchase more than the max quantity
+adventureworks=# SELECT businessentityid FROM purchasing.productvendor where maxorderqty > ( select max(orderqty) as Max_order_qty from purchasing.purchaseorderdetail);
+
+// subquery find the order based on data between 01-01-2024 to 01 - 01 - 2025
+adventureworks=# SELECT * FROM purchasing.purchaseorderdetail where duedate in (Select orderdate from purchasing.Purchaseorderheader where orderdate between '2024-01-01' AND '2025-01-01');
+
+
