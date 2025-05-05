@@ -71,3 +71,74 @@ adventureworks=# SELECT businessentityid FROM purchasing.productvendor where max
 adventureworks=# SELECT * FROM purchasing.purchaseorderdetail where duedate in (Select orderdate from purchasing.Purchaseorderheader where orderdate between '2024-01-01' AND '2025-01-01');
 
 
+----- 05/05/2025 ------
+// Select based subquery to get data of single column  and single row in the output
+adventureworks=# select firstname , (select max(sickleavehours) from humanresources.employee) as leave from humanresources.vemployee;
+
+//Select based on the where condition of another tables
+adventureworks=# SELECT firstname||' '||middlename||' '||lastname as name FROM humanresources.vemployee where firstname IS NOT NULL AND businessentityid in (select businessentityId from humanresources.vemployeedepartment where department = 'Marketing');
+
+//correlated sub query 
+ select businessentityid , sickleavehours from humanresources.employee e1 where sickleavehours < (select avg(sickleavehours) from humanresources.employee e2 where e1.jobtitle = e2.jobtitle);
+
+//select based on the from condition of employee who taken less than 50 hours sick leave
+SELECT businessentityid from (SELECT businessentityid, sickleavehours from humanresources.employee where businessentityid between 1 AND 12) where sickleavehours < 50;
+
+//Constraints
+// NOT NULL
+adventureworks=# ALTER TABLE users ALTER COLUMN user_id SET NOT NULL;
+// error 
+adventureworks=# INSERT INTO users (name, email, contact_no, businessentityid,age) VALUES ('kavin' , 'kavin@gmail.com', 9832421133, 4, 19);
+ERROR:  null value in column "user_id" of relation "users" violates not-null constraint
+
+//Unique for all user id 
+adventureworks=# ALTER TABLE users ADD CONSTRAINT uk_user_id UNIQUE(user_id);
+
+//Primary key for user_id
+adventureworks=# ALTER TABLE users ADD CONSTRAINT pk_user_id PRIMARY KEY (user_id);
+
+//Foreign key to businessentity of person to users
+adventureworks=# ALTER TABLE users ADD CONSTRAINT fk_to_businessentityid FOREIGN KEY (businessentityid) REFERENCES Person.BusinessEntity(businessentityid);
+
+// check constraint to add the condition of inserting age of user is above 18
+adventureworks=# ALTER TABLE users ADD CONSTRAINT ck_age CHECK( age > 18);
+// error for check constraint
+adventureworks=# INSERT INTO users VALUES (5, 'kavin' , 'kavin@gmail.com', 9832421133, 4, 1);
+ERROR:  new row for relation "users" violates check constraint "ck_age"
+
+//To list the schema with their table names 
+adventureworks=# select table_schema, table_name from information_schema.tables where table_schema != 'pg_catalog' AND table_schema != 'information_schema' order by table_schema;
+
+//Joins 
+//inner joins to find the name and email address of sales person
+adventureworks=# SELECT e.firstname||' '||e.middlename||' '||e.lastname as name,e.emailaddress from sales.salesperson s inner join humanresources.vemployee 
+
+//Join to connect the product and sales schema to get the orderdetails
+adventureworks=# Select p.name, s.orderqty, (s.orderqty * s.unitprice) as amount FROM sales.salesorderdetail s join production.product p on p.productid = s.productid;
+
+//Left join get the customer order details
+adventureworks=# SELECT c.customerid,s.status,  s.salespersonid FROM sales.customer c left join sales.salesorderheader s on c.customerid = s.customerid;
+
+//right join to get the count of customer attended by sales person;
+adventureworks=# SELECT count(c.customerid) as count, s.salespersonid FROM sales.customer c right join sales.salesorderheader s on c.customerid = s.customerid where s.salespersonid is not null group by s.salespersonid order by count ;
+
+//Full join to get all the product and its order qty
+adventureworks=# Select p.name , o.orderqty from production.product p full join purchasing.purchaseorderdetail o on p.productid = o.productid;
+//finding the email of all person based on businessentityid
+adventureworks=# SELECT p.businessentityid , p.firstname , p.lastname , e.emailaddress FROM person.person p FULL JOIN person.emailaddress e on p.businessent
+
+// self join  to find the common city person list 
+adventureworks=# select a.firstname, b.firstname, a.city from humanresources.vemployee a, humanresources.vemployee b where a.businessentityid != b.businesse
+
+//CTE - common table expression
+adventureworks=# WITH employeedepartment AS (select e.businessentityid , e.jobtitle , edh.departmentid , d.name as department_name from humanresources.employee e inner join humanresources.employeedepartmenthistory edh on e.businessentityid = edh.businessentityid Join humanresources.department d on d.departmentid = edh.departmentid)
+adventureworks-# select * from employeedepartment;
+
+//cte for averge sickleavehours
+adventureworks=# with avgleave(leave) as (select cast (avg(sickleavehours) as int )from humanresources.employee)
+adventureworks-# select e.businessentityid, e.sickleavehours, c.leave from humanresources.employee e , avgleave c where sickleavehours < leave;
+
+adventureworks=# WITH RECURSIVE number as (select 1 as n union select n + 1 from number where n < 10)
+adventureworks-# select * from number;
+
+
