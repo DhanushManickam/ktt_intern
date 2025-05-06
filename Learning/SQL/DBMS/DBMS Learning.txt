@@ -141,4 +141,92 @@ adventureworks-# select e.businessentityid, e.sickleavehours, c.leave from human
 adventureworks=# WITH RECURSIVE number as (select 1 as n union select n + 1 from number where n < 10)
 adventureworks-# select * from number;
 
+--------06/05/2025 ---------
+
+//window function 
+
+//over function
+adventureworks=# select e.businessentityid,e.saleslastyear, max(saleslastyear) over() from sales.salesperson e;
+
+//partition by the territory id
+adventureworks=# select e.businessentityid,e.saleslastyear, max(saleslastyear) over(partition by territoryid) from sales.salesperson e;
+
+// order by the same territory id 
+adventureworks=# select e.businessentityid,e.saleslastyear, max(saleslastyear) over(partition by territoryid order by territoryid) from sales.salesperson e;
+
+// Territory maximum person of the job take sick leave compared with all others
+adventureworks=# SELECT businessentityid , sickleavehours , max(sickleavehours) over(PARTITION BY jobtitle order by businessentityid) as maxleave from humanresources.employee;
+
+//Join two table and using of the window functions
+adventureworks=# SELECT person.person.businessentityid,  person.person.firstname , sales.salesperson.bonus , max(sales.salesperson.bonus) over(partition by territoryid order by firstname) from person.person inner join sales.salesperson on sales.salesperson.businessentityid = person.person.businessentityid ;
+
+// row numbering to add the row numbers for all the salesperson
+adventureworks=# SELECT person.person.businessentityid,  person.person.firstname , sales.salesperson.bonus , Row_number() over(partition by territoryid) from person.person inner join sales.salesperson on sales.salesperson.businessentityid = person.person.businessentityid ;
+
+// Ranking function to add the rank based on the their bonus
+//without orderby 
+adventureworks=# SELECT person.person.businessentityid,  person.person.firstname , sales.salesperson.bonus , RANK() over(partition by territoryid) from person.person inner join sales.salesperson on sales.salesperson.businessentityid = person.person.businessentityid ;
+
+// with orderby 
+adventureworks=# SELECT person.person.businessentityid,  person.person.firstname , sales.salesperson.bonus , RANK() over(partition by territoryid order by bonus desc) from person.person inner join sales.salesperson on sales.salesperson.businessentityid = person.person.businessentityid ;
+
+// dense ranking to avoid ranking gap like 1, 2,2,4 to 1, 2, 2, 3
+adventureworks=# SELECT person.person.businessentityid,  person.person.firstname , sales.salesperson.bonus , RANK() over(partition by territoryid order by bonus desc) ,Dense_RANK() over(partition by territoryid order by bonus desc) from person.person inner join sales.salesperson on sales.salesperson.businessentityid = person.person.businessentityid ;
+
+// lag function to get the previous data value of current table
+adventureworks=# SELECT person.person.businessentityid,  person.person.firstname , sales.salesperson.bonus , lag(bonus) over(partition by territoryid order by firstname) from person.person inner join sales.salesperson on sales.salesperson.businessentityid = person.person.businessentityid ;
+
+//lead function to get the next data value
+adventureworks=# SELECT person.person.businessentityid,  person.person.firstname , sales.salesperson.bonus , lead(bonus) over(partition by territoryid order by firstname) from person.person inner join sales.salesperson on sales.salesperson.businessentityid = person.person.businessentityid ;
+
+// Aggregate function of sum in window function
+adventureworks=# select * , sum(bonus) over(partition by territoryid) from sales.salesperson;
+
+// count function in window function
+adventureworks=# SELECT firstname , count(businessentityid) over(PARTITION BY persontype) FROM person.person;
+
+// DCL commands for grant access
+adventureworks=# GRANT ALL ON SCHEMA person to postgres;
+
+//schema level grant commands
+adventureworks=# GRANT USAGE ON SCHEMA person to newuser;
+adventureworks=# GRANT ALL ON all tables in schema person to newuser;
+
+//data accessed in the newuser  for table manipulation
+adventureworks=> select * from person.person;
+adventureworks=> INSERT INTO PERSON.emailaddress (businessentityid, emailaddress) values (123123, 'dhanush@gmail.com');
+
+//table level privileges
+adventureworks=# GRANT select, insert, update, delete, truncate , trigger on humanresources.employee to newuser;
+
+// DCL command for revoke access
+adventureworks=# REVOKE ALL ON SCHEMA person FROM postgres;
+
+//TCL commands
+//initial view of table users
+adventureworks=# select * from users;
+
+//begin transaction to start working on the TCL 
+adventureworks=# begin transaction;
+adventureworks=*# update users set businessentityid = 3 where user_id = 2;
+
+//using of rollback to remove the change that had done on update
+adventureworks=*# update users set businessentityid = 3 where user_id = 2;
+adventureworks=*# rollback;
+
+// permanently save the chages using commit
+adventureworks=*# update users set businessentityid = 11 where user_id = 5;
+adventureworks=*# commit;
+
+//Using savepoint to rollback to specific transaction
+adventureworks=# begin;
+adventureworks=*# insert into users values (8, 'gokul1' , 'gokulq@gmail.com' , '9877342321', 1, 35, now());
+adventureworks=*# savepoint sp1;
+adventureworks=*# insert into users values (8, 'gokul1' , 'gokulq@gmail.com' , '9877342321', 1, 35, now());
+ERROR:  duplicate key value violates unique constraint "pk_user_id"
+DETAIL:  Key (user_id)=(8) already exists.
+adventureworks=!# rollback to sp1;
+adventureworks=*# insert into users values (7, 'gokul' , 'gokul@gmail.com' , '9877342321', 1, 35, now());
+adventureworks=*# savepoint sp2;	
+adventureworks=*# commit;
 
