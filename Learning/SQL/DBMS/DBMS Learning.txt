@@ -230,3 +230,67 @@ adventureworks=*# insert into users values (7, 'gokul' , 'gokul@gmail.com' , '98
 adventureworks=*# savepoint sp2;	
 adventureworks=*# commit;
 
+-------- 07-05-2025 -------
+// creating new schema and table based on adventureworks database with time requirement to work on query 
+adventureworks=# \timing
+// create schema transport
+adventureworks=# CREATE SCHEMA TRANSPORT;
+
+//creating tables 
+adventureworks=# CREATE TABLE transport.trucks (truckid INT PRIMARY KEY, truckname VARCHAR(30), truckno VARCHAR(10));
+adventureworks=# CREATE TABLE transport.driver(driverid INT PRIMARY KEY, hiredate DATE, age INT check(age < 18 and age > 80), license varchar(10));
+adventureworks=# Alter table transport.driver add column dreview VARCHAR(10485760);
+adventureworks=# CREATE TABLE TRIP( tripid int primary key , tripslocation varchar(40) , tripelocation varchar(40), tripstartdate TIMESTAMPTZ, tripedate TIMESTAMPTZ, timetaken INTERVAL , driverid int, truckid int , foreign key(driverid) references transport.driver(driverid), foreign key(truckid) references transport.trucks(truckid));
+CREATE TABLE
+Time: 5.498 ms
+
+//add data
+adventureworks=# insert into transport.trucks values(1, 'volvo', 'TN.43.1234'),(2, 'volvo', 'TN.43.1231'),(3, 'volvo', 'TN.43.1233');
+INSERT 0 3
+Time: 7.398 ms
+adventureworks=# INSERT INTO transport.driver values(1 , '2024-04-12' , 'tn123412a', 'good driver having good review form customers');
+INSERT 0 1
+Time: 7.672 ms
+adventureworks=# insert into trip values (1, 'salem', 'chennai' , now(), now() + interval '2 days', '2 days' , 1 , 1);
+
+adventureworks=# create table tripsum
+adventureworks-# (id serial primary key, order_data JSONB );
+CREATE TABLE
+Time: 16.595 ms
+
+adventureworks=# insert into tripsum(order_data) values ('{"tripid" : "1","load" : "cotton"}');
+INSERT 0 1
+Time: 4.014 ms
+
+//select query with time taken
+adventureworks=# select * from sales.salesperson;	
+Time: 5.086 ms
+adventureworks=# SELECT * FROM sa.sp;
+Time: 0.949 ms
+
+//update query 
+adventureworks=#  update sales.store set name = 'dhanush' where businessentityid = 34;
+UPDATE 0
+Time: 0.838 ms
+adventureworks=# update sa.s set name = 'dhanush' where id = 34;
+UPDATE 0
+Time: 1.502 ms
+
+//varchar datatype assigning
+adventureworks=# select 'adads' :: varchar(2);
+ varchar
+---------
+ ad
+
+// char white space
+adventureworks=# select 'adads' :: char(100);
+
+//inserting data in the rowguid column with PostgreSQL autogenerate function
+adventureworks=# insert into sales.salesperson( businessentityid,territoryid,salesquota,bonus,commissionpct,salesytd,saleslastyear,rowguid,modifieddate) values (23, 2, 400000, 4000, 0.023, 423342.3422, 93242423.3422,gen_random_uuid(), now());
+
+
+//ILike to find the value based on not case sensitive
+adventureworks=# select count(name) from production.product where name ilike '% %';
+
+//Join query based on the joining of data on rowguid query
+adventureworks=# select s.businessentityid from sales.salesperson s inner join person.person p on p.rowguid = s.rowguid;
