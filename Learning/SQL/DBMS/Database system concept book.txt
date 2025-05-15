@@ -1,0 +1,94 @@
+//list the table in database public schema
+# \dt;
+
+//list the data in student table
+# select * from student;
+
+//retrieving patten based on begin with Sc 
+# select * from student where name like 'Sc%';
+
+//using of escape character 
+# select * from student where name like '%\%%';
+# select * from student where name like '%\%%' escape '\';
+
+//ordering the data of student and instructor
+# select * from student order by id;
+# select * from student order by name;
+# select * from instructor order by salary desc, name asc;
+
+//Set operation union
+# (select course_id from section where year = 2005 and semester = 'FALL') union (select course_id from section where year = 2004 and semester = 'Spring')
+
+//Set operation intersect 
+adventureworks=# (select course_id from section where year = 2005 and semester = 'FALL') intersect (select course_id from section where year = 2004 and semester = 'Spring');
+
+//Set Operation except
+adventureworks=# (select course_id from section where year = 2005 and semester = 'FALL') except (select course_id from section where year = 2004 and semester = 'Spring');
+
+//unknow value query execution 
+adventureworks=# select * from student where tot_cred > 5 is unknown;
+
+//aggregate function count
+adventureworks=# select count(*) from student;
+
+// Aggregate function Avg
+adventureworks=# select avg(salary) as avg_salary from instructor;
+
+//Aggregate function Average with decimal value length
+adventureworks=# select cast(avg(salary) as decimal(10, 2)) as avg_salary from instructor;
+
+// Aggregate sum function
+adventureworks=# select sum(salary) as totalsalary from instructor;
+
+//Aggregate function based on Boolean to check every value are true
+adventureworks=# select every(valb) from users;
+
+//Aggregate function based on Boolean to check some value are true
+adventureworks=# select bool_or(valb) from users;
+
+//using of Aggregate and Group by function to count instructor based on department
+adventureworks=# select dept_name , count(id) as No_of_instructor from instructor group by dept_name;
+
+//Having clause to predicate the grouped value
+adventureworks=# select dept_name , count(id) as No_of_instructor from instructor group by dept_name having count(id) > 1;
+
+//Null value based aggregate function not count the null value
+adventureworks=# select count(tot_cred) from student;
+
+//sub query using set member
+adventureworks=# select distinct course_id from section where year = 2005 and semester = 'Fall' and course_id in (select course_id from section where year = 2004 and semester = 'Spring');
+
+//Subquery based on  set comparison for salary of biology department 
+adventureworks=# select salary from instructor where salary <some(select salary from instructor where dept_name = 'Biology');
+
+//Subquery for from clause for average salary of instructor
+adventureworks=#  select dept_name, avg_salary from (select dept_name, avg (salary) as avg_salary from instructor group by dept_name) where avg_salary > 42000;
+
+// Subqury for scalar 
+adventureworks=# select (select count(*) from teaches) / (select count(*) from instructor);
+
+//deleting the values based on the subquery same like retrieving 
+adventureworks=# delete from instructor where id in (select id from student);
+
+// insert the value of student to instructor 
+adventureworks=# insert into instructor select id, name , dept_name, 18000 from student where tot_cred > 144;
+
+//Updating of table
+  adventureworks=# update student set name = 'Dhanush' where id = '79352';
+adventureworks=# update instructor set salary =  case when salary > 100000 then salary * 1.05 else salary * 1.1 end;
+adventureworks=# update student set tot_cred = (select sum(credits) from takes, course where student.ID= takes.ID and takes.course_id = course.course_id and takes.grade <> 'F' and takes.grade is not null);
+
+//Natural Joins 
+adventureworks=# select * from student Natural join takes;
+adventureworks=# select * from student natural join takes natural join course;
+adventureworks=# select * from teaches natural join instructor;
+
+//Join query based on using clause
+adventureworks=# select * from instructor join teaches using (id);
+adventureworks=# select * from student join takes using(id) join course using (course_id);
+
+//SQL query that seeks to find a list of titles of all courses taught in Spring 2009 along with the name of the instructor
+adventureworks=# select name , title from instructor join teaches using (id) join course using (course_id) where semester = 'Spring' and year = 2009;
+
+//Outer join query to get the instructor and their section count
+adventureworks=# select id , count(sec_id) from instructor natural full outer join teaches natural full outer join section group by id;
