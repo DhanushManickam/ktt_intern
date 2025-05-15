@@ -92,3 +92,130 @@ adventureworks=# select name , title from instructor join teaches using (id) joi
 
 //Outer join query to get the instructor and their section count
 adventureworks=# select id , count(sec_id) from instructor natural full outer join teaches natural full outer join section group by id;
+
+//left outer join based on retrieving student who not taken any course
+adventureworks=# select id from student natural left outer join takes where course_id is null;
+
+//left outer join or left join are same in retrieving 
+adventureworks=# select * from student left outer join takes using(id);
+adventureworks=# select * from student left join takes using(id);
+
+//creating view to the instructor without their salary 
+adventureworks=# CREATE VIEW faculty as SELECT id, name , dept_name FROM instructor;
+
+//Retrieving the faculty data of view
+adventureworks=# Select * from faculty;
+
+//view to batch2010 of student based on course taken
+adventureworks=# create view batch2010 as select id, name , dept_name, course_id, tot_cred, grade, semester from student join takes using(id) where year = 2010;
+
+//Deleting of view can be done by drop 
+adventureworks=# drop view batch2010;
+
+//query of view relation like a actual table 
+adventureworks=# SELECT * FROM batch2010 WHERE semester = 'Fall' and grade = 'A+';
+
+//Explicit attribute name declaration in view
+adventureworks=#  create view course_count(title, total_student) as select title , count(id) from takes natural join course group by title;
+
+//updating the view relation by insert and update query
+adventureworks=# insert into faculty values ('2314', 'Gopal', 'Biology');
+adventureworks=# update faculty set name = 'Ravi' where id = '2314';
+
+//Turning off the auto commit
+adventureworks=# \set AUTOCOMMIT off
+
+//After turn off need to commit the statement 
+adventureworks=*# select * from student where id = '35';
+adventureworks=*# commit;
+
+//using of begin and end of transaction
+adventureworks=# begin transaction;
+adventureworks=*# update student set name = 'Kavin' where id = '35';
+adventureworks=*# end;
+
+//Integrity constraint 
+//Adding of NOT NULL constraint to the relation instructor
+adventureworks=# Alter table instructor alter column salary SET Not Null;
+
+//Setting the condition to insert the value
+adventureworks=# Alter table student add constraint ck_cred check(tot_cred >= 0);
+
+//Created table for load details and add the constraint of primary key
+adventureworks=# create table load (id int, name name, detail text , primary key (id));
+CREATE TABLE
+
+//Alter the table for add foreign key
+adventureworks=# Alter table trip add column load_id int;
+ALTER TABLE
+
+// Added foreign key to trip and load relations
+adventureworks=# Alter table trip add constraint fk_to_laod foreign key(load_id) references load(id);
+
+//Drop the constraint 
+adventureworks=# alter table trip drop constraint fk_to_laod;
+
+//Added the constraint based on update and delete of data using cascasde the data
+adventureworks=# Alter table trip add constraint fk_to_laod foreign key(load_id) references load(id) on delete cascade on update cascade;
+
+//Insertion of load data to trip and load relation
+adventureworks=# insert into load values (1, 'cotton' , 'good load');
+adventureworks=# insert into trip values (1, 'salem', 'chennai', now(), now(), interval '2days' , 1 , 1, 1, 1);
+
+//Deletion of load details and trip detail based on load id using cascade
+adventureworks=# delete from load;
+
+//Creating of assertion
+adventureworks=# create assertion max_salary check(salary < 200000);
+
+//Creating the attribute with timestamp datatype
+adventureworks=# ALTER TABLE load add column expdate timestamp with time zone;
+
+//Creating the attribute for date type
+adventureworks=# ALTER TABLE load add column deliverdate date;
+
+//Extracting the field form the timestamp
+adventureworks=# select extract(year from tripstartdate) from trip;
+adventureworks=# Select extract(month from expdate) from load;
+adventureworks=# select user_id , name , extract (day from alterdate) as day_of_update from users;
+
+//To get the current time and date 
+adventureworks=# select current_time;
+
+//To find the time interval 
+adventureworks=# select tripstartdate - tripedate from trip;
+
+//Adding time interval in the date
+adventureworks=# update trip set tripedate = tripedate + interval '2day';
+
+//Type casting 
+//Converting the data format of varchar into integer for id
+adventureworks=# select cast(id as int) as id from student;
+
+//other method of type conversion for the data using operator
+adventureworks=# select id from student order by id::int;
+
+//converting the salary into order and easy readable format using to_char
+adventureworks=# select name, salary , to_char(salary, '99,99,999.00') from instructor;
+
+//converting the string into number  using to_number()
+adventureworks=# select TO_NUMBER(id, '9999') from student;
+
+//Providing the default value to retrieving value
+adventureworks=# Select user_id, coalesce(alterdate, current_date) from users;
+
+//Set the default value for all records if it is null 
+adventureworks=# Alter table instructor alter column salary set default 0;
+
+//Creating of blob datatype using bytea 
+adventureworks=# Alter table student add column photo bytea;
+
+//user define datatype 
+adventureworks=# create type address as (street text, city text , pincode text);
+
+//Adding column based on the user define data type
+adventureworks=# Alter table student add column address address;
+
+//updating the data for user define data
+adventureworks=# update student set address = '(parkgate,coimbatore,223212)' where id = '35';
+
