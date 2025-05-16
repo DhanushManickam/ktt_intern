@@ -219,3 +219,162 @@ adventureworks=# Alter table student add column address address;
 //updating the data for user define data
 adventureworks=# update student set address = '(parkgate,coimbatore,223212)' where id = '35';
 
+
+----------16-05-2025 Practice -------------
+
+//Error to add the sub query in check constraint 
+adventureworks=# ALTER TABLE users ADD CONSTRAINT ck_name CHECK (name IN (SELECT NAME FROM student));
+ERROR:  cannot use subquery in check constraint
+
+// Error in creating the assertion in normal way
+adventureworks=# CREATE ASSERTION check_tot_cred CHECK (tot_cred >=0);
+ERROR:  CREATE ASSERTION is not yet implemented
+
+//Practise query in DB-BOOK.com
+//Find the names of all the instructors from Biology department
+adventureworks=# SELECT name FROM instructor where dept_name = 'Biology';
+
+//Find the names of courses in Computer science department which have 3 credits
+adventureworks=# SELECT title from course where (credits, dept_name) = ('3', 'Comp. Sci.');
+
+//For the student with ID 35 (or any other value), show all course_id and title of all courses registered for by the student.
+adventureworks=# SELECT course_id , title FROM takes NATURAL JOIN course WHERE id = '35';
+
+//As above, but show the total number of credits for such courses (taken by that student). Don't display the tot_creds value from the student table, you should use SQL aggregation on courses taken by the student.
+adventureworks=# SELECT SUM(credits) FROM takes NATURAL JOIN course WHERE id = '35';
+--To check value are same  adventureworks=# SELECT tot_cred FROM student WHERE id = '35';
+
+//As above, but display the total credits for each of the students, along with the ID of the student; don't bother about the name of the student. (Don't bother about students who have not registered for any course, they can be omitted)
+adventureworks=# SELECT id, tot_cred FROM student WHERE tot_cred IS NOT NULL;
+
+//Find the names of all students who have taken any Comp. Sci. course ever (there should be no duplicate names)
+adventureworks=# SELECT DISTINCT name FROM student where dept_name ='Comp. Sci.';
+
+//checking is there any instructor teaching course without registration
+adventureworks=# SELECT ID FROM teaches WHERE id NOT IN (SELECT DISTINCT id FROM instructor);
+
+//Instead on and operator we can able to specify the value in ()
+adventureworks=# select * from instructor, teaches where (instructor.ID, dept_name) = (teaches.id, 'Biology');
+
+//Display the IDs of all instructors who have never taught a couse (Notesad1) Oracle uses the keyword minus in place of except; (2) interpret "taught" as "taught or is scheduled to teach")
+adventureworks=# (SELECT ID FROM instructor) EXCEPT (SELECT ID FROM teaches);
+adventureworks=# SELECT ID FROM instructor WHERE id NOT IN (SELECT DISTINCT id FROM teaches);
+adventureworks=# SELECT id FROM instructor WHERE id NOT IN (Select DISTINCT id FROM teaches);
+
+//As above, but display the names of the instructors also, not just the IDs.
+adventureworks=# SELECT name FROM instructor WHERE id NOT IN (Select DISTINCT id FROM teaches);
+
+//You need to create a movie database. Create three tables, one for actors(AID, name), one for movies(MID, title) and one for actor_role(MID, AID, rolename). Use appropriate data types for each of the attributes, and add appropriate primary/foreign key constraints.
+adventureworks=# CREATE DATABASE Movies;
+--created table for actor
+movies=# CREATE TABLE actor (aid int,name name);
+--created table movie
+movies=# CREATE TABLE movie (mid int, title varchar(100));
+--created table for actor_role
+movies=# CREATE TABLE actor_role (mid int, aid int, role varchar(100));
+
+--Adding primary key to the table
+movies=# ALTER TABLE actor ADD CONSTRAINT pk_actor_id PRIMARY KEY(aid);
+movies=# ALTER TABLE movie ADD CONSTRAINT pk_moive_id PRIMARY KEY(mid);
+
+--Adding foreign key to the table
+movies=# ALTER TABLE actor_role ADD CONSTRAINT fk_actor FOREIGN KEY(aid) REFERENCES actor(aid) ON DELETE CASCADE ON UPDATE CASCADE;
+movies=# ALTER TABLE actor_role ADD CONSTRAINT fk_movie FOREIGN KEY(mid) REFERENCES movie(mid) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Insert data to the above tables (approx 3 to 6 rows in each table), including data for actor "Charlie Chaplin", and for yourself (using your roll number as ID).
+movies=# INSERT INTO  actor values (1, 'Charlie Chaplin'), (2, 'Vijay'), (3, 'Ajith'), (4,'Suriya'), (5, 'Jeeva');
+
+--inserting the value to movies
+movies=# INSERT INTO movie values (1, 'Chaplin'), (2, 'Jilla'), (3 , 'Billa') , (4,  'Master'), (5, 'Retro');
+
+--inserting the value to role
+movies=# INSERT INTO actor_role values (1,1,'Hero'), (2, 2, 'Hero'), (3,3,'Hero'), (2,4,'Hero'), (4, 5, 'Hero');
+
+//Write a query to list all movies in which actor "Charlie Chaplin" has acted, along with the number of roles he had in that movie.
+movies=# SELECT title FROM actor, movie, actor_role where name = 'Charlie Chaplin' and actor.aid = actor_role.aid and movie.mid = actor_role.mid;
+
+//Write a query to list all actors who have not acted in any movie
+movies=# SELECT name FROM actor WHERE Aid NOT IN (SELECT DISTINCT aid FROM actor_role);
+
+List names of actors, along with titles of movies they have acted in. If they have not acted in any movie, show the movie title as null. (Do not use SQL outerjoin syntax here, write it from scratch.)
+movies=# (select name, coalesce(title,null) from actor, movie, actor_role where actor.aid = actor_role.aid and movie.mid = actor_role.mid) union (select name, null from actor where aid not in (select aid from actor_role));
+
+// Findthe IDs of all students who were taught by an instructor named pingr make sure there are no duplicates in the result.
+adventureworks=# select Distinct student.id from student,instructor where instructor.name = 'Pingr';
+
+//find highest salary of instructor
+adventureworks=# Select max(salary) from instructor ;
+
+// Find the enrollment of each section that was offered in Fall 2017.
+adventureworks=# select sec_id , count(id) from takes where semester = 'Fall' and year = 2010 group by sec_id order by sec_id;
+
+// Increase the salary of each instructor in the Comp. Sci. department by 10%;
+adventureworks=# update instructor set salary = salary * 1.1 where dept_name = 'Comp. Sci.';
+
+ //Insert every student whose tot cred attribute is greater than 100 as an instructor in the same department, with a salary of $10,000.
+adventureworks=# insert into instructor (select id, name , dept_name , 10000 from student where tot_cred > 100);
+
+//Delete all courses that have never been offered (i.e., do not occur in the section relation)
+adventureworks=*# delete from course where course_id Not in (select Distinct course_id from section);
+
+//finds departments whose names contain the string “sci” as a substring
+adventureworks=# select * from student where lower(name) like '%sci%';
+adventureworks=# select * from student where name ilike '%sci%';
+adventureworks=# select * from student where upper(name) like '%SCI%';
+
+// Create a new course “10001”, titled “Weekly Seminar”, with 0 credits.
+adventureworks=# insert into course values(10001 , 'Weakly seminar', 'Comp. Sci.', 1);	
+
+//inserted course section
+adventureworks=# insert into section values ('10001', 1, 'Fall', '2011', 'Gates', 314, 'O');
+
+// Enroll every student in the Comp. Sci. department in the above section.
+adventureworks=# insert into takes (select id, '10001', '1', 'Fall', '2011' from student where dept_name = 'Comp. Sci.');
+
+//Deleting of the takes where the course title is advanced
+adventureworks=*# delete from takes where course_id in (select course_id from course where title like '%advanced%');
+
+//Find the maximum and minimum enrollment across all sections, considering only sections that had some enrollment, don't worry about those that had no students taking that section
+adventureworks=# select max(enrollment) as max , min(enrollment) as min from (select course_id, sec_id, semester, year , count(*) as enrollment from takes group by course_id, sec_id, semester , year);
+
+//List all students who are taking courses in the same department as their major.
+adventureworks=# select name, course_id, dept_name from student join takes using(id) order by dept_name;
+
+//1. From the following table write a query in SQL to retrieve all rows and columns from the employee table in the Adventureworks database. Sort the result set in ascending order on jobtitle.
+adventureworks=# select * from humanresources.employee order by jobtitle;
+
+//2. From the following table write a query in SQL to retrieve all rows and columns from the employee table using table aliasing in the Adventureworks database. Sort the output in ascending order on lastname.
+adventureworks=# select * from person.person order by lastname;
+
+//3. From the following table write a query in SQL to return all rows and a subset of the columns (FirstName, LastName, businessentityid) from the person table in the AdventureWorks database. The third column heading is renamed to Employee_id. Arranged the output in ascending order by lastname.
+adventureworks=# select firstname, lastname, businessentityid as employee_id from person.person order by lastname;
+
+//4. From the following table write a query in SQL to return only the rows for product that have a sellstartdate that is not NULL and a productline of 'T'. Return productid, productnumber, and name. Arranged the output in ascending order on name.
+adventureworks=# select productid, productnumber, name from Production.product where sellstartdate is not null and productline = 'T' order by name;
+
+//5. From the following table write a query in SQL to return all rows from the salesorderheader table in Adventureworks database and calculate the percentage of tax on the subtotal have decided. Return salesorderid, customerid, orderdate, subtotal, percentage of tax column. Arranged the result set in ascending order on subtotal.
+adventureworks=# select salesorderid, customerid, orderdate, subtotal, (taxamt * 100)/subtotal as percentage from sales.salesorderheader order by subtotal;
+
+//6. From the following table write a query in SQL to create a list of unique jobtitles in the employee table in Adventureworks database. Return jobtitle column and arranged the resultset in ascending order.
+adventureworks=# select Distinct jobtitle from humanresources.employee order by jobtitle;
+
+//7. From the following table write a query in SQL to calculate the total freight paid by each customer. Return customerid and total freight. Sort the output in ascending order on customerid.
+adventureworks=# select customerid , sum(freight) from sales.salesorderheader group by customerid order by customerid;
+
+//8. From the following table write a query in SQL to find the average and the sum of the subtotal for every customer. Return customerid, average and sum of the subtotal. Grouped the result on customerid and salespersonid. Sort the result on customerid column in descending order.
+adventureworks=# select customerid, salespersonid, avg(subtotal) as avg_subtotal , sum(subtotal) as total_subtotal from sales.salesorderheader group by customerid, salespersonid order by customerid desc;
+
+//9. From the following table write a query in SQL to retrieve total quantity of each productid which are in shelf of 'A' or 'C' or 'H'. Filter the results for sum quantity is more than 500. Return productid and sum of the quantity. Sort the results according to the productid in ascending order.
+adventureworks=# select productid, sum(quantity) as totalquantity from production.productinventory where shelf in ('A', 'C', 'H') group by productid having sum(quantity) > 500 order by productid;
+
+//10. From the following table write a query in SQL to find the total quentity for a group of locationid multiplied by 10.
+adventureworks=# select sum(quantity) as total_quantity from production.productinventory group by locationid * 10;
+
+//11. From the following tables write a query in SQL to find the persons whose last name starts with letter 'L'. Return BusinessEntityID, FirstName, LastName, and PhoneNumber. Sort the result on lastname and firstname.
+adventureworks=# select BusinessEntityID, FirstName, LastName, PhoneNumber from person.personPhone natural join person.person where lastname like 'L%' order  by lastname, firstname;
+
+//12. From the following table write a query in SQL to find the sum of subtotal column. Group the sum on distinct salespersonid and customerid. Rolls up the results into subtotal and running total. Return salespersonid, customerid and sum of subtotal column i.e. sum_subtotal.
+adventureworks=# select salespersonid, customerid, sum(subtotal) as sum_subtotal from sales.salesorderheader group by rollup(salespersonid, customerid);
+
+//13. From the following table write a query in SQL to find the sum of the quantity of all combination of group of distinct locationid and shelf column. Return locationid, shelf and sum of quantity as TotalQuantity.
+adventureworks=# select locationid, shelf , sum(quantity) as Totalquantity from production.productinventory group by cube(locationid, shelf);
