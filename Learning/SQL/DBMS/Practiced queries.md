@@ -316,3 +316,171 @@ SELECT concat(name,',',productnumber,',',color,',',CHR(10)) from Production.prod
 ```sql
 SELECT LEFT(name, 5) FROM production.product;
 ```
+63. From the following table write a query in SQL to select the number of characters and the data in FirstName for people located in Australia.
+```sql
+SELECT LENGTH(firstname), firstname, lastname FROM sales.vindividualcustomer WHERE countryregionname = 'Australia';
+```
+
+64. From the following tables write a query in SQL to return the number of characters in the column FirstName and the first and last name of contacts located in Australia
+```sql
+SELECT LENGTH(firstname) , firstname, lastname FROM sales.vstorewithcontacts INNER JOIN sales.vstorewithaddresses USING (businessentityid) WHERE countryregionname = 'Australia' order by length;
+```
+
+65. From the following table write a query in SQL to select product names that have prices between $1000.00 and $1220.00. Return product name as Lower, Upper, and also LowerUpper.
+```sql
+SELECT LOWER(name), UPPER(name), LOWER(UPPER(name)) FROM Production.product WHERE standardcost BETWEEN 1000 and 1220;
+```
+
+66. Write a query in SQL to remove the spaces from the beginning of a string.
+```sql
+SELECT '    DHANUSH' AS original , trim('      DHANUSH');
+```
+
+67. From the following table write a query in SQL to remove the substring 'HN' from the start of the column productnumber. Filter the results to only show those productnumbers that start with "HN". Return original productnumber column and 'TrimmedProductnumber'.
+```sql
+SELECT productnumber, Ltrim(Productnumber, 'HN') FROM Production.product where Productnumber like 'HN%';
+```
+
+68. From the following table write a query in SQL to repeat a 0 character four times in front of a production line for production line 'T'.
+```sql
+ SELECT name , concat(repeat('0', 4) , Productline) FROM production.product where Productline  = 'T' order by name;
+```
+
+69. From the following table write a SQL query to retrieve all contact first names with the characters inverted for people whose businessentityid is less than 6.
+```sql
+ SELECT firstname, reverse(firstname) FROM person.person WHERE businessentityid < 6 order by businessentityid;
+```
+
+70. From the following table write a query in SQL to return the eight rightmost characters of each name of the product. Also return name, productnumber column. Sort the result set in ascending order on productnumber.
+```sql
+ SELECT name, productnumber , right(name, 8) FROM Production.product order by Productnumber;
+```
+
+71. Write a query in SQL to remove the spaces at the end of a string.
+```sql
+SELECT CONCAT('hello     ','all') , CONCAT(RTRIM('hello       '),'all');
+```
+
+72. From the following table write a query in SQL to fetch the rows for the product name ends with the letter 'S' or 'M' or 'L'. Return productnumber and name.
+```sql
+ SELECT productnumber, name FROM Production.product where Right(name, 1) in ('S', 'M','L');
+```
+
+73. From the following table write a query in SQL to replace null values with 'N/A' and return the names separated by commas in a single row.
+```sql
+SELECT String_agg(coalesce(firstname,'N/A'), ',') FROM person.person;
+```
+
+74. From the following table write a query in SQL to return the names and modified date separated by commas in a single row.
+```sql
+SELECT String_agg(concat(firstname,' ',lastname,' ', modifieddate) ,',') as test from person.person;
+```
+
+75. From the following table write a query in SQL to find the email addresses of employees and groups them by city. Return top ten rows.
+```sql
+SELECT city, STRING_AGG(emailaddress, ', ') FROM person.emailaddress e inner join person.businessentityaddress be using (businessentityid) inner join person.address a using(addressid)  group by city order by city limit 10;
+```
+
+76. From the following table replace the job title assistent into helper
+```sql 
+select regexp_replace(jobtitle, 'Assistant', 'Helper', 'g') from humanresources.employee;
+```
+
+77. From the following table write a SQL query to retrieve all the employees whose job titles begin with "Sales". Return firstname, middlename, lastname and jobtitle column
+```sql
+ SELECT firstname, middlename, lastname, jobtitle from person.person inner join humanresources.Employee using(businessentityid) where jobtitle like 'Sales%';
+```
+
+78.  From the following table write a query in SQL to return the last name of people so that it is in uppercase, trimmed, and concatenated with the first name.
+```sql
+SELECT CONCAT(UPPER(TRIM(lastname)),' ', firstname) FROM person.person ORDER BY lastname;
+```
+
+79.  From the following table write a query in SQL to show a resulting expression that is too small to display. Return FirstName, LastName, Title, and SickLeaveHours. The SickLeaveHours will be shown as a small expression in text format.
+```sql
+SELECT firstname, lastname, title, cast(sickleavehours as char(1)) FROM person.person inner join humanresources.employee using(businessentityid);
+```
+
+80. From the following table write a query in SQL to retrieve the name of the products. Product, that have 33 as the first two digits of listprice.
+```sql
+ SELECT productnumber , listprice From production.product where listprice::char(2) like '33%';
+```
+
+
+# Leetcode problems 
+Source : https://leetcode.com/problemset/database/
+
+### Queries 
+1. Write a solution to report the first name, last name, city, and state of each person in the Person table. If the address of a personId is not present in the Address table, report null instead. 175
+```sql
+SELECT firstName AS "firstName", lastName as "lastName", city, state FROM person left JOIN address using(personid);
+```
+
+2. Write a solution to find the second highest distinct salary from the Employee table. If there is no second highest salary, return null (return None in Pandas).176
+```sql
+SELECT(SELECT Distinct salary from employee order by salary desc limit 1 offset 1 ) as "SecondHighestSalary";
+```
+
+3. Write a solution to find the employees who earn more than their managers.
+```sql
+SELECT e.name AS "Employee" FROM employee e JOIN employee m ON e.managerid = m.id WHERE e.salary > m.salary;
+```
+
+4. Write a solution to find the ids of products that are both low fat and recyclable. 1757
+```sql
+SELECT product_id FROM products where low_fats = 'Y' and recyclable = 'Y';
+```
+
+5. Find the names of the customer that are not referred by the customer with id = 2. 584
+```sql
+SELECT name FROM customerWHERE referee_id != 2 OR referee_id IS NULL;
+```
+
+6. Write a solution to find the name, population, and area of the big countries.595
+```sql
+SELECT name , population, area FROM world WHERE area >= 3000000 OR population >= 25000000;
+```
+7. Write a solution to find all the authors that viewed at least one of their own articles.1148
+```sql
+SELECT DISTINCT author_id as "id" FROM views WHERE author_id = viewer_id ORDER BY author_id asc;
+```
+
+8. Write a solution to find the IDs of the invalid tweets. The tweet is invalid if the number of characters used in the content of the tweet is strictly greater than 15. 1683
+```sql
+SELECT tweet_id FROM Tweets WHERE length(content) > 15;
+```
+
+9. Write a solution to show the unique ID of each user, If a user does not have a unique ID replace just show null 1378
+```sql
+SELECT unique_id, name FROM employees left outer join employeeUNI using(id) ;
+```
+
+10. Write a solution to report the product_name, year, and price for each sale_id in the Sales table. 1068
+```sql
+SELECT product_name , year, price FROM sales inner join product USING(product_id);
+```
+
+11. Write a solution to find the IDs of the users who visited without making any transactions and the number of times they made these types of visits
+```sql
+SELECT customer_id, count(visit_id) as count_no_trans FROM visits full outer join Transactions using (visit_id) where transaction_id is null group by customer_id;
+```
+
+12. Write a solution to find all dates' id with higher temperatures compared to its previous dates (yesterday).197
+```sql
+SELECT w.id as "Id" FROM weather w join weather r on w.recorddate- r.recorddate = 1 where w.temperature > r.temperature;
+```
+
+13. There is a factory website that has several machines each running the same number of processes. Write a solution to find the average time each machine takes to complete a process. 1661
+```sql
+SELECT a.machine_id, cast(avg(b.timestamp - a.timestamp) as decimal(5,3)) as processing_time from activity a inner join activity b using (machine_id) where a.activity_type = 'start' and b.activity_type = 'end' group by a.machine_id;
+```
+
+14. Write a solution to report the name and bonus amount of each employee with a bonus less than 1000. 577
+```sql
+SELECT name , bonus FROM Employee full outer join Bonus using(empid) where bonus < 1000 or bonus < 1000 is unknown;
+```
+
+15. Write a solution to find the number of times each student attended each exam.
+```sql
+SELECT s.student_id, s.student_name, sb.subject_name, count(e.subject_name) as attended_exams from students s cross join subjects sb left join Examinations e on s.student_id = e.student_id AND sb.subject_name = e.subject_name group by s.student_id, s.student_name, sb.subject_name order by s.student_id, sb.subject_name;
+```
