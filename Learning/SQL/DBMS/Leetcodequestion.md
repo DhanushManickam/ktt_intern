@@ -176,11 +176,41 @@ insert into logs values (1, '1'), (2, '1'), (3, '1'), (4, '2'), (5, '1'), (6, '2
 select distinct l1.num as "ConsecutiveNums" from logs l1 ,logs l2, logs l3 where l1.num = l2.num and l2.num = l3.num and l1.id =l2.id - 1 and l2.id = l3.id - 1;
 ```
 
-16. Write a solution to find the names of all the salespersons who did not have any orders related to the company with the name "RED".
+16. Write a solution to find the names of all the salespersons who did not have any orders related to the company with the name "RED". 607
 ```sql
 create table company607 (com_id int primary key, name varchar(64) , city varchar(64));
-create table orders607 (order_id int primary key, order_date date, com_id int, sales_id int, amount int);
+create table salesperson607 (order_id int primary key, order_date date, com_id int, sales_id int, amount int);
 create table orders607 (order_id int primary key, order_date date, com_id int, sales_id int, amount int, foreign key (com_id) references orders607(com_id), foreign key (sales_id) references salesperson607(sales_id));
+insert into company607 VALUES (1, 'RED', 'Boston'), (2, 'ORANGE', 'New York'), (3, 'YELLOW', 'Boston'), (4, 'GREEN', 'Austin');
+ insert into salesperson607 VALUES (1, 'John', 100000, 6, '2006-04-01'), (2, 'Amy', 12000, 5, '2010-05-01'), (3, 'Mark', 65000, 12, '2008-12-25'), (4, 'Pam', 25000, 25, '2005-01-01'), (5, 'Alex', 5000, 10, '2007-02-03');
+insert into orders607 VALUES (1, '2014-01-01', 3, 4, 10000), (2, '2014-02-01', 4, 5, 5000), (3, '2014-03-01', 1, 1, 50000), (4, '2014-04-01', 1, 4, 25000);
+ select name from salesperson607 where sales_id not in  (select s.sales_id from salesperson607 s  join orders607 o using (sales_id)  join company607 c using (com_id) where c.name = 'RED');
+```
+17. Write a solution to select the product id, year, quantity, and price for the first year of every product sold. If any product is bought multiple times in its first year, return all sales separately.1070
+```sql
+create table product1070 (product_id int primary key, product_name varchar(64));
+create table sales1070 (sales_id int , product_id int, year int , quantity int, price int ,primary key (sales_id, year),foreign key(product_id) references product1070(product_id));
+insert into product1070 VALUES (100, 'Nokia'), (200, 'Apple'), (300, 'Samsung');
+insert into sales1070 VALUES (1, 100, 2008, 10, 5000), (2, 100, 2009, 12, 5000), (7, 200, 2011, 15, 9000);
+with first as (select product_id , min(year) from sales1070 group by product_id) select s.product_id, s.year as first_year, s.quantity, s.price from sales1070 s inner join first f on f.product_id = s.product_id and f.min = s.year ;
+```
+18. Write a solution to report the products that were only sold in the first quarter of 2019. That is, between 2019-01-01 and 2019-03-31 inclusive.
+```sql
+create table product1084 (product_id int primary key, product_name varchar(64), unit_price int);
+ create table sales1084 (seller_id int, product_id int , buyer_id int, sale_date date, quantity int, price int , foreign key(product_id) references product1084(product_id));
+  insert into product1084  VALUES (1, 'S8', 1000), (2, 'G4', 800), (3, 'iPhone', 1400);
+  insert into sales VALUES (1, 1, 1, '2019-01-21', 2, 2000), (1, 2, 2, '2019-02-17', 1, 800), (2, 2, 3, '2019-06-02', 1, 800), (3, 3, 4, '2019-05-13', 2, 2800);
+  select product_id, product_name from product1084 where product_id not in ( select product_id from product1084 inner join sales1084 using (product_id) where sale_date not between '2019-01-01' and '2019-03-31');
+  --another method
+  select p.product_id, p.product_name from product p join sales s using(product_id) group by p.product_id, p.product_name having min(s.sale_date) >= '2019-01-01' and max(s.sale_date) <= '2019-03-31';
+```
+19. Return the result table ordered by travelled_distance in descending order, if two or more users traveled the same distance, order them by their name in ascending order
+```sql
+create table users1407 (id int unique, name varchar(64));
+create table rides1407 (id int unique, user_id int, distance int);
+insert into users1407 VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Alex'), (4, 'Donald'), (7, 'Lee'), (13, 'Jonathan'), (19, 'Elvis');
+insert into rides1407 VALUES (1, 1, 120), (2, 2, 317), (3, 3, 222), (4, 7, 100), (5, 13, 312), (6, 19, 50), (7, 7, 120), (8, 19, 400), (9, 7, 230);
+select u.name, sum(coalesce(distance,0)) as travelled_distance from users1407 u left join rides1407 r on r.user_id = u.id group by u.id, u.name order by travelled_distance desc, name;
 ```
 
 ### Aggregate functions
@@ -271,7 +301,79 @@ select class from (select class , count(student) from courses group by class hav
 ```sql 
  create table RequestAccepted (requester_id int, accepter_id int, accept_date date, primary key (requester_id, accepter_id));
  insert into  RequestAccepted VALUES (1, 2, '2016/06/03'), (1, 3, '2016/06/08'), (2, 3, '2016/06/08'), (3, 4, '2016/06/09');
+```
 
+13. A single number is a number that appeared only once in the MyNumbers table.
+```sql
+create table mynumbers (num int);
+insert into mynumbers values (8),(8),(3),(3),(1),(4),(5),(6);
+select max(num) as num from (select num, count(num) from mynumbers group by num having count(num) = 1 );
+```
+14. Write a solution to report the customer ids from the Customer table that bought all the products in the Product table. 
+```sql
+ create table customers1045 (customer_id int not null, product_key int);
+  create table product1045 (product_key int primary key);
+  alter table customers1045 add constraint fk_product foreign key (product_key) references product1045(product_key);
+  insert into customers1045 VALUES (1, 5), (2, 6), (3, 5), (3, 6), (1, 6);
+  insert into product1045 values (5),(6);
+  select customer_id from customers1045 group by customer_id having count(distinct product_key) = (select count(*) from product1045);
+```
+15. write the solution to find total common actor and director movie. 1050
+```sql
+create table actordirector1050 (actor_id int , director_id int, timestamp int primary key);
+insert into actordirector1050 values (1, 1, 0), (1, 1, 1), (1, 1, 2), (1, 2, 3), (1, 2, 4), (2, 1, 5), (2, 1, 6);
+select actor_id, director_id from (select actor_id , director_id , count(timestamp) from actordirector1050 group by actor_id, director_id having count(timestamp) >= 3);
+```
+16. Write a solution to find the daily active user count for a period of 30 days ending 2019-07-27 inclusively. A user was active on someday if they made at least one activity on that day.
+```sql
+create type activitytype as enum('open_session', 'end_session', 'scroll_down', 'send_message');
+create table activity1141 (user_id int, session_id int , activity_date date, activity_type activitytype);
+insert into activity1141 VALUES (1,1,'2019-07-20','open_session'),(1,1,'2019-07-20','scroll_down'),(1,1,'2019-07-20','end_session'),(2,4,'2019-07-20','open_session'),(2,4,'2019-07-21','send_message'),(2,4,'2019-07-21','end_session'),(3,2,'2019-07-21','open_session'),(3,2,'2019-07-21','send_message'),(3,2,'2019-07-21','end_session'),(4,3,'2019-06-25','open_session'),(4,3,'2019-06-25','end_session');
+select activity_date as day , count(distinct user_id) as active_users from activity1141 where activity_date between '2019-07-27'::date - interval '29days' and '2019-07-27' group by 1;
+```
+
+17. Reformat the table such that there is a department id column and a revenue column for each month.
+```sql
+create table department1179 (id int , revenue int , month varchar(64) , primary key (id, month));
+ insert into department1179  VALUES (1,8000,'Jan'),(2,9000,'Jan'),(3,10000,'Feb'),(1,7000,'Feb'),(1,6000,'Mar');
+ select id, max(case when month = 'Jan' then revenue else null end) as "Jan_Revenue",max(case when month = 'feb' then revenue else null end) as "Feb_Revenue",max(case when month = 'Mar' then revenue else null end) as "Mar_Revenue",max(case when month = 'Apr' then revenue else null end) as "Apr_Revenue",max(case when month = 'May' then revenue else null end) as "May_Revenue",max(case when month = 'Jun' then revenue else null end) as "Jun_Revenue",max(case when month = 'Jul' then revenue else null end) as "Jul_Revenue",max(case when month = 'Aug' then revenue else null end) as "Aug_Revenue",max(case when month = 'Sep' then revenue else null end) as "Sep_Revenue",max(case when month = 'Oct' then revenue else null end) as "Oct_Revenue",max(case when month = 'Nov' then revenue else null end) as "Nov_Revenue",max(case when month = 'Dec' then revenue else null end) as "Dec_Revenue" from department1179 group by id;
+```
+
+18. Write a solution to get the names of products that have at least 100 units ordered in February 2020 and their amount.
+```sql
+create table products1327 (product_id int primary key, product_name varchar(64) , product_category varchar(64));
+create table order1327 (product_id int , order_date date, unit int, foreign key(product_id) references products1327(product_id));
+ insert into products1327 values (1,'Leetcode Solutions','Book'),(2,'Jewels of Stringology','Book'),(3,'HP','Laptop'),(4,'Lenovo','Laptop'),(5,'Leetcode Kit','T-shirt');insert into order1327 VALUES (1,'2020-02-05',60),(1,'2020-02-10',70),(2,'2020-01-18',30),(2,'2020-02-11',80),(3,'2020-02-17',2),(3,'2020-02-24',3),(4,'2020-03-01',20),(4,'2020-03-04',30),(4,'2020-03-04',60),(5,'2020-02-25',50),(5,'2020-02-27',50),(5,'2020-03-01',50);
+ select product_name , sum(unit) as unit from products1327 p inner join order1327 o using(product_id) where order_date between '2020-02-01' and '2020-02-29' group by product_name having sum(unit) >= 100;
+```
+
+19. Write a solution to report the name and balance of users with a balance higher than 10000. The balance of an account is equal to the sum of the amounts of all transactions involving that account.
+```sql
+ create table user1587 (account int primary key, name varchar(64));
+ create table transactions1587(trans_id int primary key, account int, amount int, transacted_on date);
+insert into user1587 VALUES (900001, 'Alice'), (900002, 'Bob'), (900003, 'Charlie');
+insert into transactions1587 VALUES (1, 900001, 7000, '2020-08-01'), (2, 900001, 7000, '2020-09-01'), (3, 900001, -3000, '2020-09-02'), (4, 900002, 1000, '2020-09-12'), (5, 900003, 6000, '2020-08-07'), (6, 900003, 6000, '2020-09-07'), (7, 900003, -4000, '2020-09-11');
+select name , sum(amount) as balance from user1587 inner join transactions1587 using(account) group by name, account having sum(amount) >10000;
+```
+
+20. For each date_id and make_name, find the number of distinct lead_id's and distinct partner_id's
+```sql
+ create table dailysales (date_id date, make_name varchar(64), lead_id int , partner_id int);
+  insert into  dailysales VALUES ('2020-12-8', 'toyota', 0, 1), ('2020-12-8', 'toyota', 1, 0), ('2020-12-8', 'toyota', 1, 2), ('2020-12-7', 'toyota', 0, 2), ('2020-12-7', 'toyota', 0, 1), ('2020-12-8', 'honda', 1, 2), ('2020-12-8', 'honda', 2, 1), ('2020-12-7', 'honda', 0, 1), ('2020-12-7', 'honda', 1, 2), ('2020-12-7', 'honda', 2, 1);
+  select date_id, make_name , count(distinct lead_id) as unique_leads, count(distinct partner_id) as unique_partners from dailysales group by date_id, make_name;
+```
+
+21. Write a solution that will, for each user, return the number of followers. 1729
+```sql
+create table followers1729 (user_id int, follower_id int, primary key( user_id, follower_id));
+insert into  followers1729 VALUES (0, 1), (1, 0), (2, 0), (2, 1);
+select user_id ,count(follower_id) from followers1729 group by user_id order by user_id;
+```
+22.Write a solution to calculate the bonus of each employee. The bonus of an employee is 100% of their salary if the ID of the employee is an odd number and the employee's name does not start with the character 'M'. The bonus of an employee is 0 otherwise.1873
+```sql 
+create table followers1729 (user_id int, follower_id int, primary key( user_id, follower_id));
+insert into  employee1873 VALUES (2, 'Meir', 3000), (3, 'Michael', 3800), (7, 'Addilyn', 7400), (8, 'Juan', 6100), (9, 'Kannon', 7700);
+select employee_id, coalesce(salary,0) as bonus from employee1873 where employee_id % 2 = 1 and name not like 'M%';
 ```
 
 ### window function
@@ -288,3 +390,44 @@ insert into scores values(1, 3.50), (2, 3.65), (3, 4.00), (4, 3.85), (5, 4.00), 
  insert into  activity511 VALUES (1, 2, '2016-03-01', 5), (1, 2, '2016-05-02', 6), (2, 3, '2017-06-25', 1), (3, 1, '2016-03-02', 0), (3, 4, '2018-07-03', 5);
  with logindate as (select *, row_number() over (partition by player_id order by event_date) as row from activity511) select player_id, event_date as first_login from logindate where row = 1;
 ```
+
+### case clause problems
+1. Report for every three line segments whether they can form a triangle. 610
+```sql 
+create table triangle(x int,y int,z int, primary key(x,y, z));
+insert into triangle VALUES (13, 15, 30), (10, 20, 15);
+select * , case when (x+y > z and y+z > x and x+z > y) then 'YES' else 'NO' end as triangle from triangle;
+```
+
+
+### update query
+1. Write a solution to swap all 'f' and 'm' values (i.e., change all 'f' values to 'm' and vice versa) with a single update statement and no intermediate temporary tables. 627
+```sql 
+ create type gender as enum ('m', 'f');
+ create table salary (id int primary key, name varchar(64), sex gender, salary int);
+insert into (id int primary key, name varchar(64), sex gender, salary int);
+update salary set sex = case when sex = 'f' then 'm'::gender when sex = 'm' then 'f'::gender end;
+```
+
+### string funtion
+1. Write a solution to fix the names so that only the first character is uppercase and the rest are lowercase.1667
+```sql
+create table users1667 (user_id int primary key, name varchar(64));
+insert into users1667 values (1, 'aLice'), (2, 'bOB');
+select user_id,  upper(substring(name, 0,2))||''||lower(substring(name, 2,length(name))) as name from users1667;
+```
+
+2. Write a solution to find for each date the number of different products sold and their names.1484
+```sql
+ create table activity1484 (sell_date date, product varchar(64));
+ insert into activity1484 VALUES ('2020-05-30', 'Headphone'), ('2020-06-01', 'Pencil'), ('2020-06-02', 'Mask'), ('2020-05-30', 'Basketball'), ('2020-06-01', 'Bible'), ('2020-06-02', 'Mask'), ('2020-05-30', 'T-Shirt');
+  select sell_date, count(distinct product) , string_agg(distinct product,','order by product) from activity1484 group by sell_date order by sell_date; 
+```
+
+3. Write a solution to find the patient_id, patient_name, and conditions of the patients who have Type I Diabetes. Type I Diabetes always starts with DIAB1 prefix.
+```sql
+create table patients1527 (patient_id int primary key, patient_name varchar(64) , conditions varchar(64));
+insert into patients1527 VALUES (1, 'Daniel', 'YFEV COUGH'), (2, 'Alice', ''), (3, 'Bob', 'DIAB100 MYOP'), (4, 'George', 'ACNE DIAB100'), (5, 'Alain', 'DIAB201');
+ select * from patients1527 where conditions like 'DIAB1%' or conditions like '% DIAB1%';
+```
+
