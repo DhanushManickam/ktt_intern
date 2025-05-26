@@ -51,6 +51,26 @@ create table secondhighestsalary (id int, salary int);
 insert into secondhighestsalary values(1,100),(2,200), (3,300);
 SELECT DISTINCT salary from secondhighestsalary order by salary desc limit 1 offset 1;
 ```
+7. Write a solution to rearrange the Products table so that each row has (product_id, store, price). If a product is not available in a store, do not include a row with that product_id and store combination in the result table.1795
+```sql
+create table products1795 (product_id int primary key, store1 int, store2 int, store3 int);
+insert into  products1795 values (0, 95, 100,105) , (1, 70,null, 80);
+(select product_id , 'store1' as store, store1 as price from products1795 where store1 is not null) union (select product_id, 'store2' as store, store2 as price from products1795 where store2 is not null) union (select product_id, 'store3' as store , store3 as price from products1795 where store3 is not null);
+```
+
+8. Write a solution to calculate the number of bank accounts for each salary category.1907
+```sql
+create table accounts1907 (account_id int unique, income int);
+insert into accounts1907 values (3,108939),(2,12747),(8,87709),(6,91796);
+(select 'Low Salary' as category, sum(case when income < 20000 then 1 else 0 end) from accounts1907) union (select 'Average Salary' as category , sum (case when income >= 20000 and income <=50000 then 1 else 0 end) from accounts1907) union (select 'High Salary' as category, sum (case when income > 50000 then 1 else 0 end) from accounts1907);
+```
+
+9. Find the IDs of the employees whose salary is strictly less than $30000 and whose manager left the company. When a manager leaves the company, their information is deleted from the Employees table, but the reports still have their manager_id set to the manager that left
+```sql
+create table employee1978 (employee_id int primary key, name varchar(64), manager_id int, salary int);
+insert into employee1978 values (3,'Mila',9,60301),(12,'Antonella',NULL,31000),(13,'Emery',NULL,67084),(1,'Kalel',11,21241),(9,'Mikaela',NULL,50937),(11,'Joziah',6,28485);
+select employee_id from employees where manager_id not in (select employee_id from employee1978) and salary < 30000 order by employee_id;
+```
 
 ### Joins
 1. Write a solution to show the unique ID of each user, If a user does not have a unique ID replace just show null 1378
@@ -213,6 +233,33 @@ insert into rides1407 VALUES (1, 1, 120), (2, 2, 317), (3, 3, 222), (4, 7, 100),
 select u.name, sum(coalesce(distance,0)) as travelled_distance from users1407 u left join rides1407 r on r.user_id = u.id group by u.id, u.name order by travelled_distance desc, name;
 ```
 
+20. Write a solution to report the IDs of all the employees with missing information. 1965
+```sql
+ create table employees1965 (employee_id int unique, name varchar(64));
+ create table salaries1965 (employee_id int unique, salary int);
+ insert into salaries1965 values (5,76071),(1,22517),(4,63539);
+insert into employees1965 values (2,'Crew'),(4,'Haven'),(5,'Kristian');
+select employee_id from employees1965 full outer join salaries1965 using (employee_id) where name is null or salary is null
+```
+
+21. Write a solution to report the ids and the names of all managers, the number of employees who report directly to them, and the average age of the reports rounded to the nearest integer. 1731
+```sql
+create table employee1731 (employee_id int, name varchar(64),reports_to int, age int);
+insert into employee1731 values (9,'Hercy',NULL,43),(6,'Alice',9,41),(4,'Bob',9,36),(2,'Winston',NULL,37);
+ select a.employee_id, a.name , count(b.employee_id) as reports_count, round(avg(a.age)) as average_age from employee1731 a inner join employee1731 b on a.employee_id = b.reports_to group by a.employee_id, a.name; 
+```
+
+22. Write a solution to find for each user, the join date and the number of orders they made as a buyer in 2019.
+```sql
+create table users1158 (user_id int primary key, join_date date, favorite_brand varchar(64));
+create table item1158 (item_id int primary key , item_brand varchar(64));
+create table order1158 (order_id int primary key, order_date date, item_id int , buyer_id int , seller_id int, foreign key(item_id) references item1158(item_id), foreign key(seller_id) references users1158(user_id), foreign key(buyer_id) references users1158(user_id));
+insert into users1158 values (1,'2018-01-01','Lenovo'),(2,'2018-02-09','Samsung'),(3,'2018-01-19','LG'),(4,'2018-05-21','HP');
+insert into items values (1,'Samsung'),(2,'Lenovo'),(3,'LG'),(4,'HP');
+insert into order1158 values (1,'2019-08-01',4,1,2),(2,'2018-08-02',2,1,3),(3,'2019-08-03',3,2,3),(4,'2018-08-04',1,4,2),(5,'2018-08-04',1,3,4),(6,'2019-08-05',2,2,4);
+select user_id, join_date, coalesce(count(order_id),0) from users1158 u left outer join order1158 o on u.user_id = o.buyer_id and order_date between '2019-01-01' and '2019-12-31' group by user_id ;
+```
+
 ### Aggregate functions
 
 1. Write a solution to report the movies with an odd-numbered ID and a description that is not "boring".
@@ -373,7 +420,47 @@ select user_id ,count(follower_id) from followers1729 group by user_id order by 
 ```sql 
 create table followers1729 (user_id int, follower_id int, primary key( user_id, follower_id));
 insert into  employee1873 VALUES (2, 'Meir', 3000), (3, 'Michael', 3800), (7, 'Addilyn', 7400), (8, 'Juan', 6100), (9, 'Kannon', 7700);
-select employee_id, coalesce(salary,0) as bonus from employee1873 where employee_id % 2 = 1 and name not like 'M%';
+select employee_id, coalesce(bonus, 0) as bonus from employees full outer join (select employee_id, salary as bonus from employees where employee_id % 2 = 1 and name not like 'M%') using (employee_id) order by employee_id;
+```
+23. Write a solution to calculate the total time in minutes spent by each employee on each day at the office. Note that within one day, an employee can enter and leave more than once. The time spent in the office for a single entry is out_time - in_time. 1741
+```sql
+create table employee1741(emp_id int , event_day date, in_time int, out_time int, primary key (emp_id, event_day , in_time));
+insert into  employee1741 VALUES (1, '2020-11-28', 4, 32), (1, '2020-11-28', 55, 200), (1, '2020-12-03', 1, 42), (2, '2020-11-28', 3, 33), (2, '2020-12-09', 47, 74);
+select event_day , emp_id, sum(out_time - in_time) from employee1741 group by event_day, emp_id;
+```
+24. Write a solution to calculate the number of unique subjects each teacher teaches in the university. 2356
+```sql
+create table teacher2356 (teacher_id int, subject_id int, dept_id int, primary key(subject_id, dept_id));
+insert into  teacher2356 VALUES (1, 2, 3), (1, 2, 4), (1, 3, 3), (2, 1, 1), (2, 2, 1), (2, 3, 1), (2, 4, 1);
+select teacher_id, count(distinct subject_id) as cnt from teacher2356 group by teacher_id;
+```
+
+25. Write a solution to report all the employees with their primary department. For employees who belong to one department, report their only department. 1789
+```sql
+ create table employee1789 (employee_id int, department_id int, primary_flag varchar(1));
+  alter table  employee1789 add constraint pk_emp1789 primary key (employee_id, department_id);
+  insert into  employee1789 VALUES (1, 1, 'N'), (2, 1, 'Y'), (2, 2, 'N'), (3, 3, 'N'), (4, 2, 'N'), (4, 3, 'Y'), (4, 4, 'N');
+select employee_id, department_id from employee1789 where primary_flag = 'Y' or employee_id in (select employee_id from employee1789 group by employee_id having count(employee_id) = 1);
+```
+
+26. Write a solution to report the latest login for all users in the year 2020. Do not include the users who did not login in 2020. 1890
+```sql
+create table logins1890 ( user_id int, time_stamp timestamp,primary key(user_id, time_stamp));
+logins1890 VALUES (6,'2020-06-30 15:06:07'),(6,'2021-04-21 14:06:06'),(6,'2019-03-07 00:18:15'),(8,'2020-02-01 05:10:53'),(8,'2020-12-30 00:46:50'),(2,'2020-01-16 02:49:50'),(2,'2019-08-25 07:59:08'),(14,'2019-07-14 09:00:00'),(14,'2021-01-06 11:59:59');
+select user_id , max(time_stamp) from logins1890 where extract(year from time_stamp) = 2020 group by user_id;
+```
+27. Write a solution to find the sum of amounts for odd and even transactions for each day. If there are no odd or even transactions for a specific date, display as 0.
+```sql
+create table transactions3220 (transaction_id int unique, amount int, transaction_date date);
+insert into  transactions3220  VALUES (1,150,'2024-07-01'),(2,200,'2024-07-01'),(3,75,'2024-07-01'),(4,300,'2024-07-02'),(5,50,'2024-07-02'),(6,120,'2024-07-03');
+select transaction_date, sum(case when amount%2 = 1 then amount else 0 end) as odd_sum, sum (case when amount%2 = 0 then amount else 0 end) as even_sum from transactions3220 group by transaction_date order by 1;
+```
+28. Write a solution to report the Capital gain/loss for each stock.
+```sql
+create type operation as enum ('Sell', 'Buy');
+create table stocks1393 (stock_name varchar(64), operation operation , operation_day int, price int, primary key (stock_name, operation_day));
+insert into  stocks1393 values ('Leetcode','Buy',1,1000),('Corona Masks','Buy',2,10),('Leetcode','Sell',5,9000),('Handbags','Buy',17,30000),('Corona Masks','Sell',3,1010),('Corona Masks','Buy',4,1000),('Corona Masks','Sell',5,500),('Corona Masks','Buy',6,1000),('Handbags','Sell',29,7000),('Corona Masks','Sell',10,10000);
+ select stock_name , sum(price) filter (where operation = 'Sell') - sum(price) filter (where operation = 'Buy') as capital_gain_loss from stocks1393 group by stock_name;
 ```
 
 ### window function
@@ -384,11 +471,24 @@ insert into scores values(1, 3.50), (2, 3.65), (3, 4.00), (4, 3.85), (5, 4.00), 
  select scores, dense_rank() over (order by scores desc) as rank from scores;
 ```
 
-2. Write a solution to find the first login date for each player.
+2. Write a solution to find the first login date for each player.511
 ```sql
  create table activity511 (player_id int, device_id int, event_date date, game_played int , primary key(player_id, event_date));
  insert into  activity511 VALUES (1, 2, '2016-03-01', 5), (1, 2, '2016-05-02', 6), (2, 3, '2017-06-25', 1), (3, 1, '2016-03-02', 0), (3, 4, '2018-07-03', 5);
  with logindate as (select *, row_number() over (partition by player_id order by event_date) as row from activity511) select player_id, event_date as first_login from logindate where row = 1;
+```
+
+3. Write a solution to find the prices of all products on 2019-08-16. Assume the price of all products before any change is 10.
+```sql
+create table products1164 (product_id int, new_price int, change_date date, primary key(product_id, change_date));
+ insert into products1164 values (1,20,'2019-08-14'),(2,50,'2019-08-14'),(1,30,'2019-08-15'),(1,35,'2019-08-16'),(2,65,'2019-08-17'),(3,20,'2019-08-18');
+ with cte as (select product_id, new_price as price from (select *, rank() over (partition by product_id order by change_date desc) from products1164 where change_date <= '2019-08-16') where rank = 1) select distinct product_id, coalesce(price, 10) from products1164 left join cte using (product_id);
+```
+4. Compute the moving average of how much the customer paid in a seven days window (i.e., current day + 6 days before). average_amount should be rounded to two decimal places.
+```sql
+ create table customer1321 (customer_id int, name varchar(64), visited_on date, amount int, primary key (customer_id, visited_on));
+  insert into customer1321 values (1,'Jhon','2019-01-01',100),(2,'Daniel','2019-01-02',110),(3,'Jade','2019-01-03',120),(4,'Khaled','2019-01-04',130),(5,'Winston','2019-01-05',110),(6,'Elvis','2019-01-06',140),(7,'Anna','2019-01-07',150),(8,'Maria','2019-01-08',80),(9,'Jaze','2019-01-09',110),(1,'Jhon','2019-01-10',130),(3,'Jade','2019-01-10',150);
+  SELECT visited_on, sum(current_day_sum) OVER (rows between 6 preceding and current row) amount,ROUND(SUM(current_day_sum) OVER (rows between 6 preceding and current row) / 7.0, 2) average_amount FROM ( SELECT visited_on, SUM(amount) AS current_day_sum FROM Customer1321 GROUP BY visited_on ORDER BY visited_on) stb OFFSET 6;
 ```
 
 ### case clause problems
@@ -400,13 +500,21 @@ select * , case when (x+y > z and y+z > x and x+z > y) then 'YES' else 'NO' end 
 ```
 
 
-### update query
+### Data manipulation language query
 1. Write a solution to swap all 'f' and 'm' values (i.e., change all 'f' values to 'm' and vice versa) with a single update statement and no intermediate temporary tables. 627
 ```sql 
  create type gender as enum ('m', 'f');
  create table salary (id int primary key, name varchar(64), sex gender, salary int);
 insert into (id int primary key, name varchar(64), sex gender, salary int);
 update salary set sex = case when sex = 'f' then 'm'::gender when sex = 'm' then 'f'::gender end;
+```
+
+2. Write a solution to delete all duplicate emails, keeping only one unique email with the smallest id.
+```sql
+create table persons196 (id int primary key , email varchar(100));
+insert into  persons196 values (1,'john@example.com'),(2,'bob@example.com'),(3,'john@example.com');
+delete from persons196 where id not in (select min(id) from persons196 group by email);
+select * from persons196;
 ```
 
 ### string funtion
@@ -431,3 +539,23 @@ insert into patients1527 VALUES (1, 'Daniel', 'YFEV COUGH'), (2, 'Alice', ''), (
  select * from patients1527 where conditions like 'DIAB1%' or conditions like '% DIAB1%';
 ```
 
+4. Write a solution to find all products whose description contains a valid serial number pattern.3465
+```sql
+create table products3465 (product_id int unique, product_name varchar(64), description varchar(255));
+insert into products3465 (1,'Widget A','This is a sample product with SN1234-5678'),(2,'Widget B','A product with serial SN9876-1234 in the description'),(3,'Widget C','Product SN1234-56789 is available now'),(4,'Widget D','No serial number here'),(5,'Widget E','Check out SN4321-8765 in this description');
+ select * from products3465 where regexp_like(description,'( |^)SN[0-9]{4}-[0-9]{4}( |$)');
+```
+
+5. Write a solution to find the users who have valid emails.1517
+```sql
+ create table users1517 (user_id int, name varchar(64), mail varchar(100));
+  insert into  users1517 values (1,'Winston','winston@leetcode.com'),(2,'Jonathan','jonathanisgreat'),(3,'Annabelle','bella-@leetcode.com'),(4,'Sally','sally.come@leetcode.com'),(5,'Marwan','quarz#2020@leetcode.com'),(6,'David','david69@gmail.com'),(7,'Shapiro','.shapo@leetcode.com');
+  select * from users1517 where mail ~ '^[a-zA-Z]+[a-zA-Z0-9_.-]*@leetcode\.com$' 
+```
+
+6. Write a solution to find all the valid email addresses. 3436
+```sql
+create table users3436 (user_id int unique, email varchar(100));
+insert into  users3436 values (1,'alice@example.com'),(2,'bob_at_example.com'),(3,'charlie@example.net'),(4,'david@domain.com'),(5,'eve@invalid');
+ select * from users3436 where email ~ '^[a-zA-Z0-9_]+@[a-z]+\.com$';
+```
