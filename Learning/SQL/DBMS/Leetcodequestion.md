@@ -260,6 +260,13 @@ insert into order1158 values (1,'2019-08-01',4,1,2),(2,'2018-08-02',2,1,3),(3,'2
 select user_id, join_date, coalesce(count(order_id),0) from users1158 u left outer join order1158 o on u.user_id = o.buyer_id and order_date between '2019-01-01' and '2019-12-31' group by user_id ;
 ```
 
+23. A subscription service wants to analyze user behavior patterns. The company offers a 7-day free trial, after which users can subscribe to a paid plan or cancel. 3497
+```sql
+create table useractivity3467 (user_id int , activity_date date, activity_type varchar(64) , activity_duration int, unique(user_id, activity_date, activity_type));
+ insert into useractivity3467 values (1,'2023-01-01','free_trial',45),(1,'2023-01-02','free_trial',30),(1,'2023-01-05','free_trial',60),(1,'2023-01-10','paid',75),(1,'2023-01-12','paid',90),(1,'2023-01-15','paid',65),(2,'2023-02-01','free_trial',55),(2,'2023-02-03','free_trial',25),(2,'2023-02-07','free_trial',50),(2,'2023-02-10','cancelled',0),(3,'2023-03-05','free_trial',70),(3,'2023-03-06','free_trial',60),(3,'2023-03-08','free_trial',80),(3,'2023-03-12','paid',50),(3,'2023-03-15','paid',55),(3,'2023-03-20','paid',85),(4,'2023-04-01','free_trial',40),(4,'2023-04-03','free_trial',35),(4,'2023-04-05','paid',45),(4,'2023-04-07','cancelled',0);
+ select a.user_id, round( trial_avg_duration,2), round(paid_avg_duration,2) from (select user_id, avg(activity_duration) as trial_avg_duration from useractivity3467 where activity_type = 'free_trial' group by user_id) as a inner join (select user_id, avg(activity_duration ) as paid_avg_duration from useractivity3467 where activity_type = 'paid' group by user_id) as b using (user_id);
+```
+
 ### Aggregate functions
 
 1. Write a solution to report the movies with an odd-numbered ID and a description that is not "boring".
@@ -348,6 +355,7 @@ select class from (select class , count(student) from courses group by class hav
 ```sql 
  create table RequestAccepted (requester_id int, accepter_id int, accept_date date, primary key (requester_id, accepter_id));
  insert into  RequestAccepted VALUES (1, 2, '2016/06/03'), (1, 3, '2016/06/08'), (2, 3, '2016/06/08'), (3, 4, '2016/06/09');
+ with cte(id) as (select requester_id from requestaccepted union all select accepter_id from requestaccepted) select id, count(id) over (partition by id) as num from cte order by num desc limit 1;
 ```
 
 13. A single number is a number that appeared only once in the MyNumbers table.
@@ -463,6 +471,13 @@ insert into  stocks1393 values ('Leetcode','Buy',1,1000),('Corona Masks','Buy',2
  select stock_name , sum(price) filter (where operation = 'Sell') - sum(price) filter (where operation = 'Buy') as capital_gain_loss from stocks1393 group by stock_name;
 ```
 
+29. Write a solution to report the sum of all total investment values in 2016 tiv_2016
+```sql
+ create table insurance585 (pid int primary key, tiv_2015 float, tiv_2016 float, lat float, lon float);
+ insert into  insurance585 values (1,10,5,10,10),(2,20,20,20,20),(3,10,30,20,20),(4,10,40,40,40);
+select round(sum(tiv_2016)::numeric,2) as tiv_2016 from insurance where tiv_2015 in (select tiv_2015 from insurance group by tiv_2015 having count(*) > 1) and (lat,lon) in (select lat,lon from insurance group by lat, lon  having count(*) = 1);
+```
+
 ### window function
 1. Write a solution to find the rank of the scores.178
 ```sql
@@ -491,6 +506,26 @@ create table products1164 (product_id int, new_price int, change_date date, prim
   SELECT visited_on, sum(current_day_sum) OVER (rows between 6 preceding and current row) amount,ROUND(SUM(current_day_sum) OVER (rows between 6 preceding and current row) / 7.0, 2) average_amount FROM ( SELECT visited_on, SUM(amount) AS current_day_sum FROM Customer1321 GROUP BY visited_on ORDER BY visited_on) stb OFFSET 6;
 ```
 
+5. Write a solution to find the person_name of the last person that can fit on the bus without exceeding the weight limit. The test cases are generated such that the first person does not exceed the weight limit.
+```sql
+ create table queue1204 (person_id int unique, person_name varchar(64) , weight int , turn int);
+ insert into  queue1204 values (5,'Alice',250,1),(4,'Bob',175,5),(3,'Alex',350,2),(6,'John Cena',400,3),(1,'Winston',500,6),(2,'Marie',200,4);
+ select person_name from (select person_name , sum(weight) over (order by turn) as total from queue1204 order by turn desc)where total <= 1000 limit 1;
+```
+6. Write a solution to find the students who have shown improvement
+```sql
+create table scores3421 (student_id int, subject varchar(64), score int, exam_date date, primary key (student_id, subject, exam_date));
+insert into scores3421 values (101,'Math',70,'2023-01-15'),(101,'Math',85,'2023-02-15'),(101,'Physics',65,'2023-01-15'),(101,'Physics',60,'2023-02-15'),(102,'Math',80,'2023-01-15'),(102,'Math',85,'2023-02-15'),(103,'Math',90,'2023-01-15'),(104,'Physics',75,'2023-01-15'),(104,'Physics',85,'2023-02-15');
+ with t1 as (select distinct student_id, s.subject,first_value(score) over(partition by student_id, s.subject order by exam_date) as "first_score",first_value(score) over(partition by student_id, s.subject order by exam_date desc) as "latest_score" from Scores3421 as s) select student_id, t1.subject,first_score, latest_score from t1 where first_score < latest_score order by 1, 2;
+```
+7. Write a solution to swap the seat id of every two consecutive students. If the number of students is odd, the id of the last student is not swapped.
+```sql
+create table seat626 (id int, student varchar(64));
+ alter table seat626 add constraint pk_seat primary key (id);
+ insert into seat626 values (1,'Abbot'),(2,'Doris'),(3,'Emerson'),(4,'Green'),(5,'Jeames');
+ select id, case when id = (select max(id) from seat626) and id%2 = 1 then student when id%2 = 1 then lead(student) over () else lag(student) over () end from seat626;
+```
+
 ### case clause problems
 1. Report for every three line segments whether they can form a triangle. 610
 ```sql 
@@ -498,7 +533,27 @@ create table triangle(x int,y int,z int, primary key(x,y, z));
 insert into triangle VALUES (13, 15, 30), (10, 20, 15);
 select * , case when (x+y > z and y+z > x and x+z > y) then 'YES' else 'NO' end as triangle from triangle;
 ```
+2. Biologists are studying basic patterns in DNA sequences. Write a solution to identify sample_id 
+```sql
+create table samples3475 (sample_id int unique, dna_sequence varchar(64), species varchar(64));
+insert into  samples3475 values (1,'ATGCTAGCTAGCTAA','Human'),(2,'GGGTCAATCATC','Human'),(3,'ATATATCGTAGCTA','Human'),(4,'ATGGGGTCATCATAA','Mouse'),(5,'TCAGTCAGTCAG','Mouse'),(6,'ATATCGCGCTAG','Zebrafish'),(7,'CGTATGCGTCGTA','Zebrafish');
+select *, (case when dna_sequence like 'ATG%' then 1 else 0 end) as has_start, (case when dna_sequence like '%TAA' or dna_sequence like '%TAG' or dna_sequence like '%TGA' then 1 else 0 end) as has_stop,  (case when dna_sequence like '%ATAT%' then 1 else 0 end) as has_atat ,  (case when dna_sequence like '%GGG%' then 1 else 0 end) as has_ggg from samples3475;
+```
 
+3. Write a solution to find the most popular product category for each season. 
+```sql
+create table sales3564 (sales_id int unique, product_id int, sales_date date, quantity int, price decimal);
+create table product3564 (product_id int unique, product_name varchar(64), category varchar(64));
+insert into product3564 values (1,'Warm Jacket','Apparel'),(2,'Designer Jeans','Apparel'),(3,'Cutting Board','Kitchen'),(4,'Smart Speaker','Tech'),(5,'Yoga Mat','Fitness');
+insert into sales3564 values (1,1,'2023-01-15',5,10.00),(2,2,'2023-01-20',4,15.00),(3,3,'2023-03-10',3,18.00),(4,4,'2023-04-05',1,20.00),(5,1,'2023-05-20',2,10.00),(6,2,'2023-06-12',4,15.00),(7,5,'2023-06-15',5,12.00),(8,3,'2023-07-24',2,18.00),(9,4,'2023-08-01',5,20.00),(10,5,'2023-09-03',3,12.00),(11,1,'2023-09-25',6,10.00),(12,2,'2023-11-10',4,15.00),(13,3,'2023-12-05',6,18.00),(14,4,'2023-12-22',3,20.00),(15,5,'2024-02-14',2,12.00);
+with cte as (select case when extract(month from sales_date) in (1, 2, 12) then 'Winter' when extract(month from sales_date) in (3,4,5) then 'Spring' when extract(month from sales_date) in (6, 7, 8) then 'Summer' else 'Fall' end as season, category, sum(quantity) as total_quantity , sum(quantity * price) as total_revenue from sales3564 inner join product3564 using (product_id) group by season, category) , cte2 as (select * , row_number() over (partition by season order by total_quantity desc) as row from cte )select season, category ,total_quantity, total_revenue from cte2 where row = 1;
+```
+4. Write a solution to report the type of each node in the tree. 608
+```sql
+create table tree608 (id int unique, p_id int);
+insert into tree608 values (1,NULL),(2,1),(3,1),(4,2),(5,2);
+ select id, case when p_id is null then 'Root' when id not in (select p_id from tree608 where p_id is not null) then 'Leaf' else 'Inner' end as type from tree608;
+```
 
 ### Data manipulation language query
 1. Write a solution to swap all 'f' and 'm' values (i.e., change all 'f' values to 'm' and vice versa) with a single update statement and no intermediate temporary tables. 627
@@ -558,4 +613,11 @@ insert into products3465 (1,'Widget A','This is a sample product with SN1234-567
 create table users3436 (user_id int unique, email varchar(100));
 insert into  users3436 values (1,'alice@example.com'),(2,'bob_at_example.com'),(3,'charlie@example.net'),(4,'david@domain.com'),(5,'eve@invalid');
  select * from users3436 where email ~ '^[a-zA-Z0-9_]+@[a-z]+\.com$';
+```
+
+7. Write a solution to transform the text in the content_text column.3374
+```sql
+ create table user_content (content_id int unique, content_text varchar(255));
+ insert into  user_content values (1,'hello world of SQL'),(2,'the QUICK-brown fox'),(3,'modern-day DATA science'),(4,'web-based FRONT-end development');
+ select content_id, content_text as original_text , initcap(content_text) as converted_text from user_content;
 ```
