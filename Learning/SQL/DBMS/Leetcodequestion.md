@@ -77,7 +77,6 @@ create table products1795 (product_id int primary key, store1 int, store2 int, s
 --Insert values to the table 
 insert into  products1795 values (0, 95, 100,105) , (1, 70,null, 80);
 --Query to retrive the data based on question
---Query to retrive the data based on question
 (select product_id , 'store1' as store, store1 as price from products1795 where store1 is not null) union (select product_id, 'store2' as store, store2 as price from products1795 where store2 is not null) union (select product_id, 'store3' as store , store3 as price from products1795 where store3 is not null);
 ```
 
@@ -87,7 +86,6 @@ insert into  products1795 values (0, 95, 100,105) , (1, 70,null, 80);
 create table accounts1907 (account_id int unique, income int);
 --Insert values to the table 
 insert into accounts1907 values (3,108939),(2,12747),(8,87709),(6,91796);
---Query to retrive the data based on question
 --Query to retrive the data based on question
 (select 'Low Salary' as category, sum(case when income < 20000 then 1 else 0 end) from accounts1907) union (select 'Average Salary' as category , sum (case when income >= 20000 and income <=50000 then 1 else 0 end) from accounts1907) union (select 'High Salary' as category, sum (case when income > 50000 then 1 else 0 end) from accounts1907);
 ```
@@ -524,10 +522,8 @@ create table activity550 (player_id int, device_id int, event_date date, games_p
 --Insert values to the table 
 insert into activity550 VALUES (1, 2, '2016-03-01', 5), (1, 2, '2016-03-02', 6), (2, 3, '2017-06-25', 1), (3, 1, '2016-03-02', 0), (3, 4, '2018-07-03', 5);
 --Query to retrive the data based on question
---Query to retrive the data based on question
  with firstevent as (select * , row_number() over (partition by player_id order by event_date) as rownum from activity550), player as (select count(distinct a.player_id) from firstevent a inner join firstevent b using (player_id) where a.event_date + interval '1day' = b.event_date and a.rownum in (1,2)) select round((select * from player)*1.0/count(distinct player_id) ,2)as fraction from activity550; 
 -- Another method
---Query to retrive the data based on question
 --Query to retrive the data based on question
  SELECT round(COUNT(p.player_id)::numeric/(SELECT COUNT(DISTINCT a.player_id) FROM activity550 a),2) fraction FROM activity550 p WHERE (p.player_id, p.event_date - 1) IN  (SELECT player_id, MIN(event_date) first_login FROM activity550 GROUP BY player_id);
 ```
