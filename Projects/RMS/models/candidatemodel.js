@@ -1,23 +1,23 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Employees = require('./employee');
 
-const Candidates = sequelize.define('Candidate', {
+const Candidates = sequelize.define('candidate', {
   candidate_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement : true
   },
   first_name: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.STRING(64),
     allowNull: false,
   },
   last_name: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.STRING(64),
     allowNull: false,
   },
   email_id: {
-    type: DataTypes.STRING(40),
+    type: DataTypes.STRING(254),
     allowNull: false,
     validate: {
       isEmail: true,
@@ -25,15 +25,15 @@ const Candidates = sequelize.define('Candidate', {
     unique: true,
   },
   contact_no: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.STRING(15),
     allowNull: false,
   },
   qualification: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.STRING(15),
     allowNull: true,
   },
   location: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.STRING(100),
     allowNull: true,
   },
   resume: {
@@ -45,7 +45,7 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   source: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.ENUM('Linked in', 'Indeed', 'Naukri', 'Referral'),
     allowNull: false,
   },
   emp_id: {
@@ -53,7 +53,7 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   role: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.ENUM('App Developer','Full Stack Developer', 'Human Resource','Customer Trainer','Web/App Tester'),
     allowNull: true,
   },
   company: {
@@ -61,7 +61,7 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   designation: {
-    type: DataTypes.STRING(40),
+    type: DataTypes.STRING(64),
     allowNull: true,
   },
   experience: {
@@ -69,19 +69,19 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   notice_period: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   sal_type: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.ENUM ('CTC', 'Monthly'),
     allowNull: true,
   },
   current_salary: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.DECIMAL(10,2),
     allowNull: true,
   },
   expected_salary: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.DECIMAL(10,2),
     allowNull: true,
   },
   skill_set: {
@@ -89,19 +89,19 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   task_name: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.STRING(64),
     allowNull : true
   },
   task_status: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.ENUM('Completed','Rejected', 'Pending', 'Task Rework'),
     allowNull: true,
   },
   assigned_date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   deadline: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   task_rework: {
@@ -109,43 +109,43 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   rework_status: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.ENUM('Completed','Rejected', 'Pending'),
     allowNull: true,
   },
   rework_assigned: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   rework_deadline: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   task_remark: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  interview_dt: {
+  interview_date: {
     type: DataTypes.DATE,
     allowNull: true,
   },
   interview_status: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.ENUM('Selected', 'Rejected', 'Pending', 'Re-interview'),
     allowNull: true,
   },
   technical_skills: {
-    type: DataTypes.DECIMAL(3, 2),
+    type: DataTypes.DECIMAL(2, 1),
     allowNull: true,
   },
   communication_skills: {
-    type: DataTypes.DECIMAL(3, 2),
+    type: DataTypes.DECIMAL(2, 1),
     allowNull: true,
   },
   problem_solving: {
-    type: DataTypes.DECIMAL(3, 2),
+    type: DataTypes.DECIMAL(2, 1),
     allowNull: true,
   },
   overall_ratings: {
-    type: DataTypes.DECIMAL(3, 2),
+    type: DataTypes.DECIMAL(2,1),
     allowNull: true,
   },
   interview_remark: {
@@ -153,19 +153,19 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   re_interview: {
-    type: DataTypes.STRING(3),
+    type: DataTypes.ENUM('Selected', 'Rejected', 'Pending'),
     allowNull: true,
   },
-  re_interview_dt: {
+  re_interview_date: {
     type: DataTypes.DATE,
     allowNull: true,
   },
   re_interview_ratings: {
-    type: DataTypes.DECIMAL(3, 2),
+    type: DataTypes.DECIMAL(2, 1),
     allowNull: true,
   },
   reporting_date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   reporting_time: {
@@ -173,15 +173,11 @@ const Candidates = sequelize.define('Candidate', {
     allowNull: true,
   },
   reporting_location: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.ENUM('Coimbatore', 'Salem'),
     allowNull: true,
   },
   onboarding_status: {
-    type: DataTypes.STRING(20),
-    allowNull: true,
-  },
-  status: {
-    type: DataTypes.STRING(40),
+    type: DataTypes.ENUM ('Completed', 'Pending', 'Withdrawn', 'Rejected'),
     allowNull: true,
   },
   follow_up_date: {
@@ -192,17 +188,11 @@ const Candidates = sequelize.define('Candidate', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  hr_id : {
-    type : DataTypes.INTEGER,
-    allowNull : true,
-    references :{
-      model : Employees,
-      key : 'id'
-    }
-  }
-});
-
-Employees.hasMany(Candidates,{foreignKey: 'id'});
-Candidates.belongsTo(Employees, {foreignKey : 'id'});
+},
+{
+    paranoid : true,
+    deletedAt : "Deleted_time"
+}
+);
 
 module.exports = Candidates;

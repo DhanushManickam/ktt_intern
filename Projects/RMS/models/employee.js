@@ -1,18 +1,18 @@
 const {DataTypes} = require('sequelize')
 const sequelize = require('../config/db')
 
-const Employees = sequelize.define('Employees',{
+const Employees = sequelize.define('employee',{
     id :{
         type: DataTypes.INTEGER,
         allowNull : false,
         primaryKey : true,
     },
     name:{
-        type : DataTypes.STRING(30),
+        type : DataTypes.STRING(128),
         allowNull : false
     },
     email_id : {
-        type : DataTypes.STRING(40),
+        type : DataTypes.STRING(254),
         allowNull : false,
         validate : {
             isEmail : true
@@ -20,18 +20,19 @@ const Employees = sequelize.define('Employees',{
         unique : true
     },
     phone_no : {
-        type : DataTypes.STRING(10),
+        type : DataTypes.STRING(15),
         allowNull : false,
     },
     role : {
-        type : DataTypes.STRING(30),
+        type : DataTypes.ENUM('Application Developer' ,'Full Stack Developer', 'HR'),
         allowNull : false
     },
     department : {
-        type : DataTypes.STRING(30),
+        type : DataTypes.ENUM('HR', 'IT' ,'Sales','Admin'),
+        allowNull : false
     },
     password : {
-        type: DataTypes.STRING(64),
+        type: DataTypes.STRING(60),
         allowNull: false
     }
 })

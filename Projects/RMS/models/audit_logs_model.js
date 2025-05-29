@@ -1,9 +1,7 @@
-const {DataTypes} = require('sequelize');
-const {sequlize} = require('../config/db');
-const candidates = require('./candidatemodel');
-const employees =require('./employee');
+const {DataTypes} = require('sequelize')
+const sequelize = require('../config/db')
 
-const Audit_log = sequlize.define('audit_log', {
+const Audit_log = sequelize.define('audit_log', {
     log_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -12,25 +10,13 @@ const Audit_log = sequlize.define('audit_log', {
       candidate_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: Candidate,
-          key: 'candidate_id'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
       },
-      emp_id: {
+      modified_by_emp_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: Employee,
-          key: 'id'
-        },
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
       },
       action: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.ENUM('CREATE', 'UPDATE', 'DELETE'),
         allowNull: false
       },
       modified_at: {
@@ -38,19 +24,14 @@ const Audit_log = sequlize.define('audit_log', {
         allowNull: false,
         defaultValue: DataTypes.NOW
       },
-      value_before: {
+      old_value: {
         type: DataTypes.JSON,
         allowNull: false
       },
-      value_after: {
+      new_value: {
         type: DataTypes.JSON,
         allowNull: false
       }
 });
-
-Candidate.hasMany(Audit_log, { foreignKey: 'candidate_id' });
-Audit_log.belongsTo(Candidates, { foreignKey: 'candidate_id' });
-Employee.hasMany(Audit_log, { foreignKey: 'id' });
-Audit_log.belongsTo(Employees, { foreignKey: 'id' });
 
 module.exports = Audit_log;
