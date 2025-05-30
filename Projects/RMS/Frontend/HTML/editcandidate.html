@@ -1,18 +1,18 @@
 <div id="editModal" class="modal">
     <div class="modal-content">
-      <form id="candidateForm" class="form-content">
+      <form id="candidateForm" class="form-content" enctype="multipart/form-data">
         <div class="fixed">
-          <span class="addclosebtn">&times;</span>
+          <span class="editclosebtn">&times;</span>
           <p>Personal details</p>
 
           <div class="rows">
               <div class="field">
-                  <label><span><i class="fa-regular fa-user"></i> First name </span></label>
+                  <label><span><i class="fa-regular fa-user"></i> First name* </span></label>
                   <input type="text" id="fname" name="first_name" required>
               </div>
   
               <div class="field">
-                  <label><span><i class="fa-regular fa-user"></i> Last name </span></label>
+                  <label><span><i class="fa-regular fa-user"></i> Last name* </span></label>
                   <input type="text" id="lname" name="last_name" required>
               </div>
           </div>
@@ -20,12 +20,12 @@
           </div>
           <div class="rows">
             <div class="field">
-                <label><span><i class="fa-regular fa-envelope"></i> Email id </span></label>
+                <label><span><i class="fa-regular fa-envelope"></i> Email id* </span></label>
                 <input type="email" id="email" name="email_id" required>
             </div>
             
             <div class="field">
-                <label><span><i class="fa-solid fa-phone"></i> Phone no </span></label>
+                <label><span><i class="fa-solid fa-phone"></i> Phone no* </span></label>
                 <input type="tel" id="phone_no" name="contact_no" maxlength="10" minlength="10" required>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="rows">
             <div class="field">
                 <label><span><i class="fa-regular fa-file"></i> Resume</span></label>
-                <input type="file" name="resume" id="resume" required>
+                <input type="file" name="resume" id="resume">
             </div>
             
             <div class="field">
@@ -57,14 +57,14 @@
 
             <div class="field">
                 <label>
-                  <span><i class="fa fa-link"></i> Source</span>
+                  <span><i class="fa fa-link"></i> Source*</span>
                 </label>
                 <select name="source" id="source" onchange="toggleOtherInput()" required>
                     <option value="none" disabled >Select source</option>
                     <option value="Linked in">Linked in</option>
                     <option value="Indeed">Indeed</option>
                     <option value="Naukri">Naukri</option>
-                    <option value="referral">Referral</option>
+                    <option value="Referral">Referral</option>
                   </select>
             </div>
 
@@ -81,11 +81,9 @@
         <div class="rows">
             <div class="field">
                 <label for="role"><span><i class="fa-solid fa-briefcase"></i> Role</span></label>
-                <select name="role" id="Role">
+                <select name="role" id="role">
                     <option value="none" disabled >Select Role</option>
                     <option value="App Developer">App Developer</option>
-                    <option value="Business Development Executive">Business Development Executive</option>
-                    <option value="Customer Trainer">Customer Trainer</option>
                     <option value="Customer Trainer">Customer Trainer</option>
                     <option value="Full Stack Developer">Full Stack Developer</option>                
                     <option value="Human Resource">Human Resource</option>
@@ -104,7 +102,7 @@
             </div>
             <div class="field">
                 <label><span><i class="fa-solid fa-calendar-days"></i> Experience</span></label>
-                <input type="number" name="experience" id="experience" step=".01">
+                <input type="number" name="experience" id="experience" step=".1">
             </div>
         </div>
         
@@ -129,11 +127,11 @@
         <div class="rows">
             <div class="field">
                 <label><span><i class="fa-solid fa-wallet"></i> Current Salary</span></label>
-                <input type="number" name="current_salary" id="current_salary">
+                <input type="number" name="current_salary" id="current_salary" step=".1">
             </div>
             <div class="field">
                 <label><span><i class="fa-solid fa-wallet"></i> Expected Salary</span></label>
-                <input type="number" name="expected_salary" id="expected_salary">
+                <input type="number" name="expected_salary" id="expected_salary" step=".1">
             </div>
         </div>
        
@@ -148,7 +146,8 @@
   
         <div class="rows">
           <div class="final">
-            <button type="submit"><i class="fa fa-edit"></i> Update</button>
+            <input type="hidden" id="candidate_id">
+            <button type="button" id="candidateFormUpdateBtn"><i class="fa fa-edit"></i> Update</button>
           </div>
         </div>
       </form>

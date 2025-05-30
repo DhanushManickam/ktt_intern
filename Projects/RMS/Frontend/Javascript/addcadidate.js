@@ -2,7 +2,6 @@ fetch('../HTML/addcandidate.html')
   .then(res => res.text())
   .then(html => {
     document.body.insertAdjacentHTML('beforeend', html);
-
     const modal = document.getElementById('addModal');
     const closeBtn = document.querySelector('.addclosebtn');
 
@@ -28,7 +27,7 @@ fetch('../HTML/addcandidate.html')
 function toggleOtherInput() {
   const select = document.getElementById("source");
   const otherField = document.getElementById("referral_field");
-  if (select.value === "referral") {
+  if (select.value === "Referral") {
       otherField.style.display = "block";
   } else {
       otherField.style.display = "none";

@@ -4,7 +4,7 @@ fetch('../HTML/editcandidate.html')
     document.body.insertAdjacentHTML('beforeend', html);
 
     const modal = document.getElementById('editModal');
-    const closeBtn = document.querySelector('.editclosebtn');
+    const closeBtn = modal.querySelector('.editclosebtn');
 
     closeBtn.addEventListener('click', () => {
       modal.style.display = 'none';
@@ -21,14 +21,45 @@ fetch('../HTML/editcandidate.html')
       if (e.target === modal) modal.style.display = 'none';
     });
 
-  });
+    const skillInput = modal.querySelector("input[name='basic']");
+    if (skillInput) {
+      new Tagify(skillInput);
+    }
 
-function toggleOtherInput() {
-  const select = document.getElementById("source");
-  const otherField = document.getElementById("referral_field");
-  if (select.value === "referral") {
-      otherField.style.display = "block";
-  } else {
-      otherField.style.display = "none";
-  }
-}
+    const sourceSelect = modal.querySelector("#source");
+    const referralField = modal.querySelector("#referral_field");
+    if (sourceSelect && referralField) {
+      sourceSelect.addEventListener("change", () => {
+        referralField.style.display = sourceSelect.value === "Referral" ? "block" : "none";
+      });
+    }
+
+    const form = document.getElementById('candidateForm'); 
+    let updateBtn = document.querySelector("#candidateFormUpdateBtn");
+    updateBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const candidateid = document.querySelector("#candidate_id").value || '';
+      console.log(candidateid);
+      if (!candidateid) {
+        console.log("Candidate Not found");
+      }
+      const formData = new FormData(form);  
+ 
+      try {
+        const response = await fetch(`/api/candidates/${candidateid}`, {
+          method: 'PUT', 
+          body: formData
+        });
+
+        if (!response.ok) throw new Error('Update failed');
+
+        const data = await response.json();
+        alert('Candidate updated successfully!');
+        document.getElementById('editModal').style.display = 'none';
+        location.reload();
+      } catch (err) {
+        console.error(err);
+        alert('Error updating candidate');
+      }
+    });
+  });

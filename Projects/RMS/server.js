@@ -34,10 +34,6 @@ app.get('/add_candidate', (req, res) => {
   res.sendFile(path.join(__dirname, 'Frontend/HTML/addcandidate.html'));
 });
 
-app.get('/edit_candidate', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Frontend/HTML/editcandidate.html'));
-});
-
 app.get('/employees', (req, res) => {
   res.sendFile(path.join(__dirname, 'Frontend/HTML/employees.html'));
 });
